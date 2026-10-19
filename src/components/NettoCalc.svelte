@@ -80,7 +80,7 @@
     </div>
     <div class="field">
       <label for="uren">Uren aan je bedrijf per jaar</label>
-      <span class="hint" id="uren-h">Alle uren, ook administratie en acquisitie. Vanaf {getRules(s.jaar).urencriterium.value} uur heb je recht op de zelfstandigenaftrek.</span>
+      <span class="hint" id="uren-h">Alle uren, ook administratie en acquisitie. Vanaf {getRules(s.jaar).urencriterium.value.toLocaleString('nl-NL')} uur heb je recht op de zelfstandigenaftrek.</span>
       <div class="input"><input id="uren" type="number" inputmode="numeric" min="0" step="50" aria-describedby="uren-h" bind:value={s.uren} /><span>uur</span></div>
     </div>
     <label class="check"><input type="checkbox" bind:checked={s.starter} /> <span>Ik ben starter en heb recht op de startersaftrek<br /><span class="hint">Maximaal 3 keer in de eerste 5 jaar.</span></span></label>

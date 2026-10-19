@@ -72,7 +72,7 @@
     </div>
     <div class="field">
       <label for="totaal">Totaal uren aan je bedrijf per jaar</label>
-      <span class="hint">Declarabel plus administratie en acquisitie. Telt voor het urencriterium ({rules.urencriterium.value} uur).</span>
+      <span class="hint">Declarabel plus administratie en acquisitie. Telt voor het urencriterium ({rules.urencriterium.value.toLocaleString('nl-NL')} uur).</span>
       <div class="input"><input id="totaal" type="number" inputmode="numeric" min="0" step="50" bind:value={s.totaal} /><span>uur</span></div>
     </div>
     <label class="check"><input type="checkbox" bind:checked={s.starter} /> <span>Ik heb recht op de startersaftrek</span></label>

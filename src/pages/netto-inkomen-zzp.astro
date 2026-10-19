@@ -31,7 +31,7 @@ const jsonLd = [toolSchema(title, new URL('/netto-inkomen-zzp', 'https://' + SIT
 
   <div class="wrap content prose">
     <h2>Zo rekenen we</h2>
-    <p>We beginnen bij je winst: omzet min zakelijke kosten. Haal je het urencriterium van {r26.urencriterium.value} uur, dan gaat de zelfstandigenaftrek eraf, en als starter ook de startersaftrek. Van wat overblijft is {pct(r26.mkbWinstvrijstelling.value)} vrijgesteld (de MKB-winstvrijstelling).</p>
+    <p>We beginnen bij je winst: omzet min zakelijke kosten. Haal je het urencriterium van {r26.urencriterium.value.toLocaleString('nl-NL')} uur, dan gaat de zelfstandigenaftrek eraf, en als starter ook de startersaftrek. Van wat overblijft is {pct(r26.mkbWinstvrijstelling.value)} vrijgesteld (de MKB-winstvrijstelling).</p>
     <p>Over de rest betaal je inkomstenbelasting in box 1. Daar gaan de algemene heffingskorting en de arbeidskorting weer af. Tot slot betaal je de inkomensafhankelijke bijdrage Zvw.</p>
     <p>Bij elke uitkomst zie je welke cijfers we gebruikten en waar ze vandaan komen. Cijfers voor 2027 zijn voorlopig tot de Eerste Kamer het Belastingplan heeft aangenomen.</p>
 

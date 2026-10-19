@@ -16,7 +16,9 @@
   } = $props();
 
   const eur = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
-  const fmt = (v: number | string) => (typeof v === 'number' ? eur.format(Math.round(v)) : v);
+  // Lines marked with an operator show the absolute amount; the operator carries the sign.
+  const fmt = (v: number | string, op?: string) =>
+    typeof v === 'number' ? eur.format(Math.round(op === '−' ? Math.abs(v) : v)) : v;
 </script>
 
 <section class="tape" aria-label={title}>
@@ -29,7 +31,7 @@
       <li class:strong={l.strong}>
         <span class="op" aria-hidden="true">{l.op ?? ''}</span>
         <span class="label">{l.label}{#if l.note}<small>{l.note}</small>{/if}</span>
-        <span class="amt">{fmt(l.amount)}</span>
+        <span class="amt">{fmt(l.amount, l.op)}</span>
       </li>
     {/each}
   </ol>

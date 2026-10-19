@@ -9,6 +9,8 @@ interface Props {
   jsonLd?: object[];
 }
 const { title, description, updated, jsonLd = [] } = Astro.props;
+// Cloudflare Web Analytics (cookieless). Set PUBLIC_CF_BEACON in Cloudflare Pages to enable.
+const beacon = import.meta.env.PUBLIC_CF_BEACON;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const path = Astro.url.pathname.replace(/\.html$/, '');
 const fmtDate = (d: string) =>
@@ -64,9 +66,10 @@ const fmtDate = (d: string) =>
     <div class="wrap foot">
       <p><strong>{SITE.name}</strong> is een onafhankelijke site met rekenhulpen voor zzp'ers. We zijn niet verbonden aan de Belastingdienst of de KVK.</p>
       <p>Aan de uitkomsten kunnen geen rechten worden ontleend. Alle berekeningen gebeuren in je eigen browser; we slaan geen invoer op.</p>
-      <p><a href="/privacy">Privacy</a> · <a href="/over">Over deze site en bronnen</a></p>
+      <p class="links"><a href="/privacy">Privacy</a> <a href="/over">Over deze site en bronnen</a></p>
     </div>
   </footer>
+  {beacon && <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: beacon })}></script>}
 </body>
 </html>
 
@@ -90,4 +93,5 @@ const fmtDate = (d: string) =>
   .foot { padding-top: 24px; padding-bottom: 32px; max-width: 760px; margin-left: 0; }
   @media (min-width: 1120px) { .foot { margin-left: auto; margin-right: auto; max-width: 1120px; } }
   .foot p { max-width: 68ch; }
+  .links { display: flex; gap: 18px; flex-wrap: wrap; }
 </style>

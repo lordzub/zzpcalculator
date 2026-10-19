@@ -92,7 +92,7 @@
         { label: 'Box 2-belasting', amount: -r.bv.box2, op: '−' },
         { label: 'Netto salaris', amount: r.bv.salaris - r.bv.loonheffing, op: '+' },
       ]}
-      total={{ label: 'Netto via BV', amount: r.bv.netto, tone: r.verschilNetto >= 0 ? 'good' : 'bad' }}
+      total={{ label: 'Netto via BV', amount: r.bv.netto, tone: s.uitkeren === 'alles' ? (r.verschilNetto >= 0 ? 'good' : 'bad') : 'neutral' }}
       sources={[
         src('Vpb', rules.vpb.value.map((b) => pct(b.rate)).join(' / '), rules.vpb),
         src('Box 2', rules.box2.value.map((b) => pct(b.rate)).join(' / '), rules.box2),
@@ -101,7 +101,12 @@
       ]}
     />
     <p class="hint" style="font-size:var(--step--1);color:var(--ink-soft)">
-      {r.verschilNetto >= 0 ? 'Met een BV' : 'Met een eenmanszaak'} houd je dit jaar {eur.format(Math.abs(r.verschilNetto))} meer over. Uitgangspunten: je haalt het urencriterium, bent geen starter en de BV heeft één aandeelhouder.
+      {#if s.uitkeren === 'alles'}
+        {r.verschilNetto >= 0 ? 'Met een BV' : 'Met een eenmanszaak'} houd je dit jaar {eur.format(Math.abs(r.verschilNetto))} meer over.
+      {:else}
+        Met een BV betaal je dit jaar {eur.format(Math.abs(r.verschilBelasting))} {r.verschilBelasting <= 0 ? 'minder' : 'meer'} belasting, en blijft {eur.format(r.bv.inBv)} in de BV. Keer je dat later uit, dan betaal je er nog box 2-belasting over.
+      {/if}
+      Uitgangspunten: je haalt het urencriterium, bent geen starter en de BV heeft één aandeelhouder.
     </p>
     <p><button class="btn" type="button" onclick={share}>{copied ? 'Link gekopieerd' : 'Kopieer link naar deze uitkomst'}</button></p>
   </div>
