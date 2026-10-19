@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NettoCalc from '../components/NettoCalc.svelte';
+import Faq from '../components/Faq.astro';
+import { faqSchema, toolSchema } from '../components/faqSchema';
+import { getRules } from '../rules';
+import { SITE } from '../site';
+
+const r25 = getRules(2025), r26 = getRules(2026), r27 = getRules(2027);
+const eur = (n: number) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+
+const title = `Zelfstandigenaftrek 2027: ${eur(r27.zelfstandigenaftrek.value)}. Wat kost het jou?`;
+const description = `De zelfstandigenaftrek daalt naar ${eur(r27.zelfstandigenaftrek.value)} in 2027. Bereken hoeveel netto inkomen je verliest ten opzichte van 2025 en 2026, en bekijk de startersaftrek.`;
+
+const faq = [
+  { q: 'Hoe hoog is de zelfstandigenaftrek in 2027?', a: `<p>${eur(r27.zelfstandigenaftrek.value)} (${r27.zelfstandigenaftrek.status}). In 2026 is het ${eur(r26.zelfstandigenaftrek.value)} en in 2025 ${eur(r25.zelfstandigenaftrek.value)}.</p>` },
+  { q: 'Wanneer heb ik recht op de zelfstandigenaftrek?', a: `<p>Je bent ondernemer voor de inkomstenbelasting en je haalt het urencriterium: minimaal ${r27.urencriterium.value} uur per jaar aan je onderneming. Ook moet je aan het begin van het jaar jonger zijn dan de AOW-leeftijd.</p>` },
+  { q: 'Hoe hoog is de startersaftrek in 2027?', a: `<p>${eur(r27.startersaftrek.value)} (${r27.startersaftrek.status}). Je krijgt hem bovenop de zelfstandigenaftrek, maximaal 3 keer in de eerste 5 jaar dat je ondernemer bent.</p>` },
+  { q: 'Hoeveel scheelt de lagere aftrek mij netto?', a: `<p>Dat hangt af van je belastingtarief. Vul je winst in bij de rekenhulp hierboven: je ziet het verschil tussen de jaren in euro's, inclusief het effect op heffingskortingen en de bijdrage Zvw.</p>` },
+  { q: 'Waarom wordt de zelfstandigenaftrek verlaagd?', a: `<p>Het kabinet wil het verschil in belastingdruk tussen ondernemers en werknemers kleiner maken. Daarom wordt de aftrek sinds 2020 stap voor stap afgebouwd.</p>` },
+];
+const jsonLd = [toolSchema(title, new URL('/zelfstandigenaftrek-2027', 'https://' + SITE.domain).href, description), faqSchema(faq)];
+---
+<Layout title={`Zelfstandigenaftrek 2027 berekenen | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd}>
+  <div class="wrap hero">
+    <h1>Zelfstandigenaftrek 2027: wat kost het je?</h1>
+    <p class="lede">De aftrek daalt van {eur(r25.zelfstandigenaftrek.value)} (2025) naar {eur(r26.zelfstandigenaftrek.value)} (2026) en {eur(r27.zelfstandigenaftrek.value)} (2027). Vul je winst in en zie wat dat jou netto kost.</p>
+    <NettoCalc client:load focus="aftrek" />
+  </div>
+
+  <div class="wrap content prose">
+    <h2>Zelfstandigenaftrek per jaar</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Jaar</th><th>Zelfstandigenaftrek</th><th>Startersaftrek</th><th>Status</th></tr></thead>
+        <tbody>
+          {[r25, r26, r27].map((r) => (
+            <tr><td>{r.year}</td><td>{eur(r.zelfstandigenaftrek.value)}</td><td>{eur(r.startersaftrek.value)}</td><td>{r.zelfstandigenaftrek.status}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>De aftrek gaat van je winst af voordat je belasting betaalt. Een lagere aftrek betekent dus meer belastbare winst. Hoeveel je dat kost, hangt af van je tarief: bij een hogere winst scheelt het meer.</p>
+
+    <h2>Het urencriterium</h2>
+    <p>Je krijgt de zelfstandigenaftrek alleen als je minstens {r27.urencriterium.value} uur per jaar aan je onderneming besteedt. Dat zijn alle uren: declarabel werk, maar ook administratie, acquisitie en het bijhouden van je vakkennis. Houd je uren bij, want de Belastingdienst kan erom vragen.</p>
+
+    <div class="next">
+      <p>Nu je netto inkomen daalt, moet je uurtarief misschien omhoog. <a href="/uurtarief-berekenen-zzp">Bereken je minimale uurtarief</a> en check daarna of je boven de <a href="/rechtsvermoeden-check">tariefgrens van het rechtsvermoeden</a> zit.</p>
+    </div>
+
+    <Faq items={faq} />
+  </div>
+</Layout>

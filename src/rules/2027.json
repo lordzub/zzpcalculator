@@ -1,0 +1,157 @@
+{
+  "year": 2027,
+  "box1Brackets": {
+    "value": [
+      {
+        "upTo": 39247,
+        "rate": 0.3623
+      },
+      {
+        "upTo": 80578,
+        "rate": 0.3816
+      },
+      {
+        "upTo": null,
+        "rate": 0.495
+      }
+    ],
+    "status": "voorstel",
+    "source": "https://www.taxence.nl/nieuws/tweede-nota-van-wijziging-belastingplan-2027/",
+    "note": "Belastingplan 2027 na de tweede nota van wijziging (9 oktober 2026). De Eerste Kamer stemt naar verwachting half december."
+  },
+  "algemeneHeffingskorting": {
+    "value": [
+      {
+        "from": 0,
+        "to": 30910,
+        "base": 3154,
+        "rate": 0
+      },
+      {
+        "from": 30910,
+        "to": null,
+        "base": 3154,
+        "rate": -0.0635
+      }
+    ],
+    "status": "voorstel",
+    "source": "https://www.kennisdomein.nl/financieel/belastingschijven/",
+    "note": "Afbouwpunt hangt af van het minimumloon, dat in november 2026 wordt vastgesteld."
+  },
+  "arbeidskorting": {
+    "value": [
+      {
+        "from": 0,
+        "to": 12114,
+        "base": 0,
+        "rate": 0.09427109
+      },
+      {
+        "from": 12114,
+        "to": 26168,
+        "base": 1142,
+        "rate": 0.31008965
+      },
+      {
+        "from": 26168,
+        "to": 47834,
+        "base": 5500,
+        "rate": 0.0179544
+      },
+      {
+        "from": 47834,
+        "to": null,
+        "base": 5889,
+        "rate": -0.0651
+      }
+    ],
+    "status": "voorstel",
+    "source": "https://www.taxence.nl/nieuws/tweede-nota-van-wijziging-belastingplan-2027/",
+    "note": "Maximum €5.889 na de tweede nota van wijziging. De grenzen van de opbouwschijven (12114 en 26168) zijn een schatting tot de officiële tabel verschijnt."
+  },
+  "zelfstandigenaftrek": {
+    "value": 900,
+    "status": "definitief",
+    "source": "https://www.rijksfinancien.nl/sites/default/files/bestanden/belastingplan-2027/wetsvoorstel-belastingplan-2027/Wetsvoorstel-Belastingplan-2027.pdf",
+    "note": "Al vastgelegd in de wet sinds het Belastingplan 2023."
+  },
+  "startersaftrek": {
+    "value": 10,
+    "status": "voorstel",
+    "source": "https://www.rijksfinancien.nl/sites/default/files/bestanden/belastingplan-2027/wetsvoorstel-belastingplan-2027/Wetsvoorstel-Belastingplan-2027.pdf",
+    "note": "Het Belastingplan 2027 verlaagt de startersaftrek naar €10 en schaft hem in 2028 af."
+  },
+  "urencriterium": {
+    "value": 1225,
+    "status": "definitief",
+    "source": "https://www.rijksfinancien.nl/sites/default/files/bestanden/belastingplan-2027/wetsvoorstel-belastingplan-2027/Wetsvoorstel-Belastingplan-2027.pdf"
+  },
+  "mkbWinstvrijstelling": {
+    "value": 0.127,
+    "status": "voorstel",
+    "source": "https://www.rijksfinancien.nl/sites/default/files/bestanden/belastingplan-2027/wetsvoorstel-belastingplan-2027/Wetsvoorstel-Belastingplan-2027.pdf"
+  },
+  "zvwOndernemer": {
+    "value": {
+      "rate": 0.0502,
+      "maxIncome": 82547
+    },
+    "status": "voorlopig",
+    "source": "https://www.salarisvanmorgen.nl/?p=84780",
+    "note": "Raming; de definitieve regeling verschijnt meestal in november."
+  },
+  "zvwWerkgever": {
+    "value": {
+      "rate": 0.0627,
+      "maxIncome": 82547
+    },
+    "status": "voorlopig",
+    "source": "https://www.salarisvanmorgen.nl/?p=84780",
+    "note": "Raming; de definitieve regeling verschijnt meestal in november."
+  },
+  "vpb": {
+    "value": [
+      {
+        "upTo": 200000,
+        "rate": 0.19
+      },
+      {
+        "upTo": null,
+        "rate": 0.258
+      }
+    ],
+    "status": "voorstel",
+    "source": "https://www.sra.nl/~/media/SRAnieuwsbank/Documenten/MMM/Miljoenennota/Special-Miljoenennota-2027-DDJ"
+  },
+  "box2": {
+    "value": [
+      {
+        "upTo": 69607,
+        "rate": 0.245
+      },
+      {
+        "upTo": null,
+        "rate": 0.31
+      }
+    ],
+    "status": "voorstel",
+    "source": "https://www.sra.nl/~/media/SRAnieuwsbank/Documenten/MMM/Miljoenennota/Special-Miljoenennota-2027-DDJ"
+  },
+  "gebruikelijkLoon": {
+    "value": 58000,
+    "status": "voorlopig",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2026/",
+    "note": "Het bedrag voor 2027 wordt eind december gepubliceerd; tot dan rekenen we met het bedrag van 2026."
+  },
+  "korOmzetgrens": {
+    "value": 20000,
+    "status": "definitief",
+    "source": "https://www.belastingdienst.nl/wps/wcm/connect/nl/btw/content/kor-voorwaarden"
+  },
+  "rechtsvermoedenDrempel": {
+    "value": 38,
+    "status": "voorlopig",
+    "source": "https://ondernemersplein.overheid.nl/wetswijzigingen/laag-uurtarief-van-zzper-kan-leiden-tot-arbeidsovereenkomst/",
+    "note": "€38 sinds 1 januari 2026. Het bedrag wordt geïndexeerd; per 1 januari 2027 mogelijk rond €39."
+  }
+}

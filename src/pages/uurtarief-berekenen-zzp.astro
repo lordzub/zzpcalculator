@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import UurtariefCalc from '../components/UurtariefCalc.svelte';
+import Faq from '../components/Faq.astro';
+import { faqSchema, toolSchema } from '../components/faqSchema';
+import { getRules } from '../rules';
+import { SITE } from '../site';
+
+const r27 = getRules(2027);
+const eur2 = (n: number) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(n);
+
+const title = 'Uurtarief berekenen als zzp\'er';
+const description = 'Bereken welk uurtarief je minimaal nodig hebt voor het netto inkomen dat je wilt, inclusief belasting, kosten, vakantie, pensioen en AOV. Met waarschuwing voor de tariefgrens van 2027.';
+
+const faq = [
+  { q: 'Hoe bereken ik mijn uurtarief als zzp\'er?', a: `<p>Begin bij wat je netto per maand nodig hebt. Tel daar pensioen en verzekeringen bij op, reken terug naar de omzet vóór belasting en kosten, en deel dat door het aantal uur dat je echt kunt factureren. De rekenhulp hierboven doet dat voor je, met de belastingregels van het gekozen jaar.</p>` },
+  { q: 'Hoeveel uur per week kan ik factureren?', a: `<p>Minder dan je werkt. Administratie, acquisitie, reistijd en bijscholing zijn niet declarabel. Veel zzp'ers factureren 25 tot 32 uur per week. Reken ook met weken zonder omzet, zoals vakantie en ziekte.</p>` },
+  { q: 'Wat is een normaal uurtarief voor een zzp\'er?', a: `<p>Dat verschilt sterk per beroep en ervaring. Kijk daarom vooral naar wat jij nodig hebt: een tarief onder je minimum kost je geld, hoe gangbaar het ook is.</p>` },
+  { q: 'Waarom krijg ik een waarschuwing over de tariefgrens?', a: `<p>Ligt je tarief onder de grens van het rechtsvermoeden (${r27.rechtsvermoedenDrempel.value != null ? eur2(r27.rechtsvermoedenDrempel.value) : 'n.v.t.'} in 2027, ${r27.rechtsvermoedenDrempel.status}), dan wordt aangenomen dat je werkt als werknemer. Opdrachtgevers kunnen daardoor terughoudend zijn. <a href="/rechtsvermoeden-check">Lees meer en check je tarief</a>.</p>` },
+];
+const jsonLd = [toolSchema(title, new URL('/uurtarief-berekenen-zzp', 'https://' + SITE.domain).href, description), faqSchema(faq)];
+---
+<Layout title={`${title} (2026 en 2027) | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd}>
+  <div class="wrap hero">
+    <h1>Uurtarief berekenen als zzp'er</h1>
+    <p class="lede">Begin bij wat je netto wilt verdienen. We rekenen terug naar het uurtarief dat je daarvoor minimaal nodig hebt.</p>
+    <UurtariefCalc client:load />
+  </div>
+
+  <div class="wrap content prose">
+    <h2>Zo rekenen we</h2>
+    <p>We tellen je gewenste netto inkomen, pensioen en AOV-premie bij elkaar op. Daarna zoeken we de omzet waarbij je, na kosten, inkomstenbelasting en bijdrage Zvw, precies dat bedrag overhoudt. Dat doen we met dezelfde berekening als de <a href="/netto-inkomen-zzp">netto-inkomen-calculator</a>, alleen andersom.</p>
+    <p>Die omzet delen we door je declarabele uren: uren per week maal het aantal weken dat je werkt. Het uurtarief ronden we naar boven af op hele centen.</p>
+
+    <h3>Uitgangspunten</h3>
+    <p>Pensioen en AOV rekenen we als uitgaven uit je netto inkomen. In werkelijkheid kun je lijfrentepremie en AOV-premie vaak aftrekken, dus het echte minimum ligt iets lager. Btw zit niet in het tarief.</p>
+
+    <Faq items={faq} />
+  </div>
+</Layout>

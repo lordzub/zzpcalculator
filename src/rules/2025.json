@@ -1,0 +1,149 @@
+{
+  "year": 2025,
+  "box1Brackets": {
+    "value": [
+      {
+        "upTo": 38441,
+        "rate": 0.3582
+      },
+      {
+        "upTo": 76817,
+        "rate": 0.3748
+      },
+      {
+        "upTo": null,
+        "rate": 0.495
+      }
+    ],
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2025/"
+  },
+  "algemeneHeffingskorting": {
+    "value": [
+      {
+        "from": 0,
+        "to": 28406,
+        "base": 3068,
+        "rate": 0
+      },
+      {
+        "from": 28406,
+        "to": null,
+        "base": 3068,
+        "rate": -0.06337
+      }
+    ],
+    "status": "definitief",
+    "source": "https://download.belastingdienst.nl/belastingdienst/docs/bijlage-nieuwsbrief-loonheffingen-2025-lh2091b51fd.pdf"
+  },
+  "arbeidskorting": {
+    "value": [
+      {
+        "from": 0,
+        "to": 12169,
+        "base": 0,
+        "rate": 0.0805325
+      },
+      {
+        "from": 12169,
+        "to": 26288,
+        "base": 980,
+        "rate": 0.30030455
+      },
+      {
+        "from": 26288,
+        "to": 43071,
+        "base": 5220,
+        "rate": 0.02258238
+      },
+      {
+        "from": 43071,
+        "to": null,
+        "base": 5599,
+        "rate": -0.0651
+      }
+    ],
+    "status": "definitief",
+    "source": "https://download.belastingdienst.nl/belastingdienst/docs/bijlage-nieuwsbrief-loonheffingen-2025-lh2091b51fd.pdf"
+  },
+  "zelfstandigenaftrek": {
+    "value": 2470,
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2025/"
+  },
+  "startersaftrek": {
+    "value": 2123,
+    "status": "definitief",
+    "source": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/winst/inkomstenbelasting/inkomstenbelasting_voor_ondernemers/ondernemersaftrek/startersaftrek"
+  },
+  "urencriterium": {
+    "value": 1225,
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2025/"
+  },
+  "mkbWinstvrijstelling": {
+    "value": 0.127,
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2025/"
+  },
+  "zvwOndernemer": {
+    "value": {
+      "rate": 0.0526,
+      "maxIncome": 75864
+    },
+    "status": "definitief",
+    "source": "https://download.belastingdienst.nl/belastingdienst/docs/bijlage-nieuwsbrief-loonheffingen-2025-lh2091b51fd.pdf"
+  },
+  "zvwWerkgever": {
+    "value": {
+      "rate": 0.0651,
+      "maxIncome": 75864
+    },
+    "status": "definitief",
+    "source": "https://download.belastingdienst.nl/belastingdienst/docs/bijlage-nieuwsbrief-loonheffingen-2025-lh2091b51fd.pdf"
+  },
+  "vpb": {
+    "value": [
+      {
+        "upTo": 200000,
+        "rate": 0.19
+      },
+      {
+        "upTo": null,
+        "rate": 0.258
+      }
+    ],
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2025/"
+  },
+  "box2": {
+    "value": [
+      {
+        "upTo": 67804,
+        "rate": 0.245
+      },
+      {
+        "upTo": null,
+        "rate": 0.31
+      }
+    ],
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2025/"
+  },
+  "gebruikelijkLoon": {
+    "value": 56000,
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2025/"
+  },
+  "korOmzetgrens": {
+    "value": 20000,
+    "status": "definitief",
+    "source": "https://www.belastingdienst.nl/wps/wcm/connect/nl/btw/content/kor-voorwaarden"
+  },
+  "rechtsvermoedenDrempel": {
+    "value": null,
+    "status": "definitief",
+    "source": "https://zoek.officielebekendmakingen.nl/stb-2026-207.html",
+    "note": "Het rechtsvermoeden geldt pas vanaf 31 december 2026."
+  }
+}

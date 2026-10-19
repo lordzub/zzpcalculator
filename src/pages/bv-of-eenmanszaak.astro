@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BvCalc from '../components/BvCalc.svelte';
+import Faq from '../components/Faq.astro';
+import { faqSchema, toolSchema } from '../components/faqSchema';
+import { getRules } from '../rules';
+import { breakEvenWinst } from '../engine/bv';
+import { SITE } from '../site';
+
+const r26 = getRules(2026);
+const eur = (n: number) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+const pct = (n: number) => new Intl.NumberFormat('nl-NL', { style: 'percent', maximumFractionDigits: 2 }).format(n);
+const be = breakEvenWinst(2500, r26);
+
+const title = 'BV of eenmanszaak? Bereken wat voordeliger is';
+const description = 'Vergelijk je netto inkomen in een eenmanszaak en een BV, met DGA-salaris, vennootschapsbelasting en box 2. Inclusief de winst waarbij een BV omslaat naar voordeliger.';
+
+const faq = [
+  { q: 'Vanaf welke winst is een BV voordeliger?', a: `<p>Dat hangt af van hoeveel je uitkeert en wat de BV extra kost. Keer je alles uit en kost de BV ${eur(2500)} per jaar extra, dan ligt het omslagpunt in ${r26.year} rond ${be != null ? eur(be) : 'een zeer hoge winst'}. Laat je geld in de BV staan, dan kan het eerder voordelig zijn, omdat je de box 2-belasting uitstelt.</p>` },
+  { q: 'Wat is het gebruikelijk loon?', a: `<p>Als directeur-grootaandeelhouder (DGA) moet je jezelf een salaris betalen van minstens het gebruikelijk loon: ${eur(r26.gebruikelijkLoon.value)} in ${r26.year}. Is de winst lager, dan mag het salaris lager zijn.</p>` },
+  { q: 'Hoeveel vennootschapsbelasting betaalt een BV?', a: `<p>In ${r26.year}: ${r26.vpb.value.map((b, i) => `${pct(b.rate)} ${i === 0 ? `tot ${eur(b.upTo ?? 0)}` : 'daarboven'}`).join(', ')}.</p>` },
+  { q: 'Wat is box 2?', a: `<p>Als je dividend uit je BV haalt, betaal je inkomstenbelasting in box 2. In ${r26.year} is dat ${r26.box2.value.map((b, i) => `${pct(b.rate)} ${i === 0 ? `tot ${eur(b.upTo ?? 0)}` : 'daarboven'}`).join(', ')} per persoon.</p>` },
+  { q: 'Raak ik met een BV mijn ondernemersaftrek kwijt?', a: `<p>Ja. Zelfstandigenaftrek, startersaftrek en MKB-winstvrijstelling gelden alleen voor ondernemers in de inkomstenbelasting, zoals een eenmanszaak. Daarom is een BV bij een lagere winst meestal duurder.</p>` },
+];
+const jsonLd = [toolSchema(title, new URL('/bv-of-eenmanszaak', 'https://' + SITE.domain).href, description), faqSchema(faq)];
+---
+<Layout title={`${title} | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd}>
+  <div class="wrap hero">
+    <h1>BV of eenmanszaak?</h1>
+    <p class="lede">Vul je verwachte winst in en wat je nodig hebt om van te leven. Je ziet wat je netto overhoudt in beide vormen, en wat er in de BV blijft.</p>
+    <BvCalc client:load />
+  </div>
+
+  <div class="wrap content prose">
+    <h2>Zo rekenen we</h2>
+    <p><strong>Eenmanszaak:</strong> je winst valt in box 1, met zelfstandigenaftrek en MKB-winstvrijstelling. We gaan ervan uit dat je het urencriterium haalt.</p>
+    <p><strong>BV:</strong> de BV betaalt je een DGA-salaris van het gebruikelijk loon, plus de werkgeversheffing Zvw. Over de rest betaalt de BV vennootschapsbelasting. Wat je daarna als dividend uitkeert, wordt belast in box 2. Kies je "alleen wat ik nodig heb", dan keren we net genoeg dividend uit om je levensbehoefte te dekken.</p>
+
+    <h3>Wat we niet meerekenen</h3>
+    <p>Pensioen in eigen beheer, een holdingstructuur, je fiscale partner, oprichtingskosten en de latente box 2-belasting over geld dat in de BV blijft. Twijfel je echt over een BV, bespreek het dan met een adviseur; deze rekenhulp helpt je om dat gesprek voor te bereiden.</p>
+
+    <Faq items={faq} />
+  </div>
+</Layout>

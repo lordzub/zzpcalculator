@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RateCheck from '../components/RateCheck.svelte';
+import Faq from '../components/Faq.astro';
+import { faqSchema, toolSchema } from '../components/faqSchema';
+import { getRules } from '../rules';
+import { SITE } from '../site';
+
+const r = getRules(2027);
+const d = r.rechtsvermoedenDrempel.value ?? 38;
+const eur2 = (n: number) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(n);
+const eur0 = (n: number) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+
+const title = `Rechtsvermoeden zzp: check je tarief tegen de grens van ${eur0(d)}`;
+const description = `Vanaf 31 december 2026 geldt een rechtsvermoeden van een arbeidsovereenkomst bij een uurtarief tot en met ${eur0(d)}. Check in een paar seconden of jouw tarief, of een lijst tarieven, eronder valt.`;
+
+const faq = [
+  { q: 'Wat is het rechtsvermoeden bij een laag uurtarief?', a: `<p>Als een zzp'er ${eur0(d)} per uur of minder verdient, wordt vermoed dat er sprake is van een arbeidsovereenkomst. Het is een vermoeden: de opdrachtgever of opdrachtnemer kan aantonen dat het toch een opdracht is. Het staat in het Burgerlijk Wetboek (artikel 7:610aa).</p>` },
+  { q: 'Vanaf wanneer geldt het?', a: `<p>Vanaf 31 december 2026. Dat is vastgelegd in een besluit van juli 2026. De wet zelf is in juni 2026 aangenomen door de Eerste Kamer.</p>` },
+  { q: 'Hoe hoog is de grens?', a: `<p>In de wet staat ${eur0(36)} per uur, het bedrag voor 2025. Na indexatie is dat ${eur0(38)} per uur sinds 1 januari 2026. Het bedrag wordt jaarlijks aangepast, dus per 1 januari 2027 kan het iets hoger worden. We passen de rekenhulp aan zodra het nieuwe bedrag bekend is.</p>` },
+  { q: 'Geldt het ook bij precies de grens?', a: `<p>Ja. Het vermoeden geldt bij een tarief van ten hoogste de grens, dus ook bij precies ${eur2(d)}.</p>` },
+  { q: 'Gaat de Belastingdienst hierop controleren?', a: `<p>Het rechtsvermoeden is civiel recht: het gaat over de relatie tussen jou en je opdrachtgever, bijvoorbeeld als een van beiden naar de rechter stapt. De Belastingdienst en het UWV toetsen het niet zelf. Los daarvan handhaaft de Belastingdienst sinds 2025 weer op schijnzelfstandigheid.</p>` },
+  { q: 'Hoe reken ik een vaste prijs om naar een uurtarief?', a: `<p>Deel het bedrag (zonder btw) door het aantal uren dat je verwacht te werken. Kies in de rekenhulp "Vaste prijs" en vul beide in.</p>` },
+];
+const jsonLd = [toolSchema(title, new URL('/rechtsvermoeden-check', 'https://' + SITE.domain).href, description), faqSchema(faq)];
+---
+<Layout title={`${title} | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd}>
+  <div class="wrap hero">
+    <h1>Val je onder het rechtsvermoeden?</h1>
+    <p class="lede">Vanaf 31 december 2026 wordt bij een tarief tot en met {eur0(d)} per uur vermoed dat je werknemer bent. Check je tarief, of een hele lijst tegelijk.</p>
+    <RateCheck client:load />
+  </div>
+
+  <div class="wrap content prose">
+    <h2>Wat verandert er?</h2>
+    <p>Op 31 december 2026 gaat de wet in die een rechtsvermoeden van een arbeidsovereenkomst invoert voor werkenden met een laag uurtarief. Verdien je {eur0(d)} per uur of minder, dan wordt aangenomen dat je in loondienst werkt. Het tarief is zonder btw.</p>
+    <p>Een vermoeden is geen eindoordeel. Wie het oneens is, moet aantonen dat het om een echte opdracht gaat. Dat kan bijvoorbeeld als je vrij bent in hoe en wanneer je werkt, eigen klanten hebt en ondernemersrisico loopt.</p>
+
+    <h2>Wat betekent het voor jou?</h2>
+    <h3>Als zzp'er</h3>
+    <p>Valt je tarief onder de grens, dan kun je je opdrachtgever vragen om een arbeidsovereenkomst, met loondoorbetaling bij ziekte, vakantiegeld en pensioen. Wil je zelfstandig blijven, dan is een hoger tarief de eenvoudigste route. <a href="/uurtarief-berekenen-zzp">Bereken wat je minimaal nodig hebt</a>.</p>
+    <h3>Als opdrachtgever</h3>
+    <p>Huur je zzp'ers in voor {eur0(d)} per uur of minder, dan loop je het risico dat een rechter de opdracht als dienstverband ziet. Check je lopende opdrachten vóór 31 december met de lijst-functie hierboven: plak de tarieven en je ziet meteen welke onder de grens vallen.</p>
+
+    <h2>De grens kan veranderen</h2>
+    <p>{r.rechtsvermoedenDrempel.note} Op deze pagina staat altijd het bedrag dat op dat moment geldt, met de bron erbij.</p>
+
+    <div class="next">
+      <p>Ben je zzp'er en moet je tarief omhoog? Bekijk wat dat netto oplevert met de <a href="/netto-inkomen-zzp">netto-inkomen-calculator</a>.</p>
+    </div>
+
+    <Faq items={faq} />
+
+    <h2>Bronnen</h2>
+    <ul>
+      <li><a href="https://zoek.officielebekendmakingen.nl/stb-2026-207.html" rel="noopener">Besluit inwerkingtreding (Staatsblad 2026, 207)</a></li>
+      <li><a href="https://www.eerstekamer.nl/wetsvoorstel/36783_wet_invoering?df2=all2" rel="noopener">Wetsvoorstel 36783 bij de Eerste Kamer</a></li>
+      <li><a href="https://ondernemersplein.overheid.nl/wetswijzigingen/laag-uurtarief-van-zzper-kan-leiden-tot-arbeidsovereenkomst/" rel="noopener">Ondernemersplein: laag uurtarief kan leiden tot arbeidsovereenkomst</a></li>
+    </ul>
+  </div>
+</Layout>

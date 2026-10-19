@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../site';
+import { YEARS, getRules } from '../rules';
+
+const labels: Record<string, string> = {
+  box1Brackets: 'Tarieven box 1', algemeneHeffingskorting: 'Algemene heffingskorting', arbeidskorting: 'Arbeidskorting',
+  zelfstandigenaftrek: 'Zelfstandigenaftrek', startersaftrek: 'Startersaftrek', urencriterium: 'Urencriterium',
+  mkbWinstvrijstelling: 'MKB-winstvrijstelling', zvwOndernemer: 'Bijdrage Zvw (ondernemer)', zvwWerkgever: 'Werkgeversheffing Zvw',
+  vpb: 'Vennootschapsbelasting', box2: 'Box 2', gebruikelijkLoon: 'Gebruikelijk loon', korOmzetgrens: 'KOR-omzetgrens',
+  rechtsvermoedenDrempel: 'Tariefgrens rechtsvermoeden',
+};
+---
+<Layout title={`Over deze site en bronnen | ${SITE.name}`} description="Hoe zzpcheck rekent, welke cijfers we gebruiken, waar ze vandaan komen en hoe vaak we ze bijwerken." updated="2026-10-19">
+  <div class="wrap prose hero">
+    <h1>Over deze site en bronnen</h1>
+    <p>{SITE.name} is een onafhankelijke site met rekenhulpen voor zzp'ers. We zijn niet verbonden aan de Belastingdienst, de KVK of een bank.</p>
+
+    <h2>Hoe we rekenen</h2>
+    <p>Alle rekenhulpen gebruiken één rekenmodel. De belastingregels staan per jaar in een apart bestand: tarieven, heffingskortingen, aftrekposten en grenzen. Elk cijfer heeft een status en een bron.</p>
+    <ul>
+      <li><strong>definitief</strong>: vastgesteld in wet of regeling.</li>
+      <li><strong>voorlopig</strong>: een officiële raming of verwachting, nog niet vastgesteld.</li>
+      <li><strong>voorstel</strong>: staat in een wetsvoorstel dat nog kan veranderen.</li>
+    </ul>
+    <p>Voor elke versie draaien we een vaste set rekenvoorbeelden. Die worden ook met een apart, onafhankelijk rekenmodel berekend. Wijkt een uitkomst meer dan een paar cent af, dan gaat de site niet online.</p>
+
+    <h2>Wanneer we bijwerken</h2>
+    <ul>
+      <li>Rond Prinsjesdag (september): cijfers voor het nieuwe jaar, als voorlopig.</li>
+      <li>December: na de stemming in de Eerste Kamer.</li>
+      <li>1 januari: alle rekenhulpen schakelen naar het nieuwe jaar.</li>
+    </ul>
+
+    <h2>Alle cijfers per jaar</h2>
+    {YEARS.map((y) => {
+      const r = getRules(y);
+      return (
+        <details>
+          <summary>Belastingjaar {y}</summary>
+          <ul class="srcs">
+            {Object.entries(labels).map(([k, label]) => {
+              const v = (r as any)[k];
+              return <li>{label}: <span class="st">{v.status}</span> <a href={v.source} rel="noopener">bron</a>{v.note && <small>{v.note}</small>}</li>;
+            })}
+          </ul>
+        </details>
+      );
+    })}
+
+    <h2>Fout gezien?</h2>
+    <p>Mail naar <a href="mailto:info@zzpcheck.nl">info@zzpcheck.nl</a>. Een fout in een cijfer herstellen we zo snel mogelijk.</p>
+  </div>
+</Layout>
+
+<style>
+  details { border-bottom: 1px solid var(--line); padding: 10px 0; }
+  summary { cursor: pointer; font-weight: 700; }
+  .srcs { font-size: var(--step--1); }
+  .srcs small { display: block; color: var(--ink-soft); }
+  .st { padding: 0 6px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); font-size: 0.75rem; }
+</style>

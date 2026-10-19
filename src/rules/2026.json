@@ -1,0 +1,149 @@
+{
+  "year": 2026,
+  "box1Brackets": {
+    "value": [
+      {
+        "upTo": 38883,
+        "rate": 0.3575
+      },
+      {
+        "upTo": 78426,
+        "rate": 0.3756
+      },
+      {
+        "upTo": null,
+        "rate": 0.495
+      }
+    ],
+    "status": "definitief",
+    "source": "https://www.belastingdienst.nl/wps/wcm/connect/nl/voorlopige-aanslag/content/voorlopige-aanslag-tarieven-en-heffingskortingen"
+  },
+  "algemeneHeffingskorting": {
+    "value": [
+      {
+        "from": 0,
+        "to": 29736,
+        "base": 3115,
+        "rate": 0
+      },
+      {
+        "from": 29736,
+        "to": null,
+        "base": 3115,
+        "rate": -0.06398
+      }
+    ],
+    "status": "definitief",
+    "source": "https://www.belastingdienst.nl/wps/wcm/connect/nl/voorlopige-aanslag/content/voorlopige-aanslag-tarieven-en-heffingskortingen"
+  },
+  "arbeidskorting": {
+    "value": [
+      {
+        "from": 0,
+        "to": 11965,
+        "base": 0,
+        "rate": 0.08324279
+      },
+      {
+        "from": 11965,
+        "to": 25845,
+        "base": 996,
+        "rate": 0.31008646
+      },
+      {
+        "from": 25845,
+        "to": 45592,
+        "base": 5300,
+        "rate": 0.01949663
+      },
+      {
+        "from": 45592,
+        "to": null,
+        "base": 5685,
+        "rate": -0.0651
+      }
+    ],
+    "status": "definitief",
+    "source": "https://www.belastingdienst.nl/wps/wcm/connect/nl/voorlopige-aanslag/content/voorlopige-aanslag-tarieven-en-heffingskortingen"
+  },
+  "zelfstandigenaftrek": {
+    "value": 1200,
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2026/"
+  },
+  "startersaftrek": {
+    "value": 2123,
+    "status": "definitief",
+    "source": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/winst/inkomstenbelasting/inkomstenbelasting_voor_ondernemers/ondernemersaftrek/startersaftrek"
+  },
+  "urencriterium": {
+    "value": 1225,
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2026/"
+  },
+  "mkbWinstvrijstelling": {
+    "value": 0.127,
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2026/"
+  },
+  "zvwOndernemer": {
+    "value": {
+      "rate": 0.0485,
+      "maxIncome": 79409
+    },
+    "status": "definitief",
+    "source": "https://www.taxence.nl/nieuws/maximum-bijdrageloon-zvw-2026-vastgesteld/"
+  },
+  "zvwWerkgever": {
+    "value": {
+      "rate": 0.061,
+      "maxIncome": 79409
+    },
+    "status": "definitief",
+    "source": "https://www.taxence.nl/nieuws/maximum-bijdrageloon-zvw-2026-vastgesteld/"
+  },
+  "vpb": {
+    "value": [
+      {
+        "upTo": 200000,
+        "rate": 0.19
+      },
+      {
+        "upTo": null,
+        "rate": 0.258
+      }
+    ],
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2026/"
+  },
+  "box2": {
+    "value": [
+      {
+        "upTo": 68843,
+        "rate": 0.245
+      },
+      {
+        "upTo": null,
+        "rate": 0.31
+      }
+    ],
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2026/"
+  },
+  "gebruikelijkLoon": {
+    "value": 58000,
+    "status": "definitief",
+    "source": "https://www.kvk.nl/geldzaken/belastingtarieven-2026/"
+  },
+  "korOmzetgrens": {
+    "value": 20000,
+    "status": "definitief",
+    "source": "https://www.belastingdienst.nl/wps/wcm/connect/nl/btw/content/kor-voorwaarden"
+  },
+  "rechtsvermoedenDrempel": {
+    "value": 38,
+    "status": "definitief",
+    "source": "https://www.rendement.nl/arbeidsovereenkomst/nieuws/drie-rechtsvermoedens-voor-werkenden-per-31-december-2026.html",
+    "note": "Geldt vanaf 31 december 2026. Tarieven tot en met dit bedrag vallen onder het rechtsvermoeden."
+  }
+}

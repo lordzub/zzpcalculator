@@ -1,0 +1,1172 @@
+[
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 20000,
+   "kosten": 2000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 13557.69,
+   "inkomstenbelasting": 0.0,
+   "zvw": 713.13,
+   "netto": 17286.87
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 35000,
+   "kosten": 3000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 25779.69,
+   "inkomstenbelasting": 817.29,
+   "zvw": 1356.01,
+   "netto": 29826.69
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 45000,
+   "kosten": 5000,
+   "uren": 1300,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 30910.31,
+   "inkomstenbelasting": 2633.12,
+   "zvw": 1625.88,
+   "netto": 35741.0
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 60000,
+   "kosten": 6000,
+   "uren": 1400,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 44985.69,
+   "inkomstenbelasting": 9317.65,
+   "zvw": 2366.25,
+   "netto": 42316.1
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 80000,
+   "kosten": 8000,
+   "uren": 1400,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 60699.69,
+   "inkomstenbelasting": 17374.85,
+   "zvw": 3192.8,
+   "netto": 51432.34
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 80000,
+   "kosten": 8000,
+   "uren": 1000,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 62856.0,
+   "inkomstenbelasting": 18319.68,
+   "zvw": 3306.23,
+   "netto": 50374.09
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 100000,
+   "kosten": 10000,
+   "uren": 1500,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 76413.69,
+   "inkomstenbelasting": 27016.65,
+   "zvw": 3990.45,
+   "netto": 58992.9
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 100000,
+   "kosten": 10000,
+   "uren": 1500,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 74560.31,
+   "inkomstenbelasting": 26204.56,
+   "zvw": 3921.87,
+   "netto": 59873.57
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 130000,
+   "kosten": 15000,
+   "uren": 1600,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 98238.69,
+   "inkomstenbelasting": 39854.91,
+   "zvw": 3990.45,
+   "netto": 71154.64
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 150000,
+   "kosten": 10000,
+   "uren": 1600,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 120063.69,
+   "inkomstenbelasting": 51956.35,
+   "zvw": 3990.45,
+   "netto": 84053.21
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 250000,
+   "kosten": 30000,
+   "uren": 1800,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 189903.69,
+   "inkomstenbelasting": 87748.38,
+   "zvw": 3990.45,
+   "netto": 128261.17
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 5000,
+   "kosten": 4000,
+   "uren": 1300,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 0,
+   "inkomstenbelasting": 0.0,
+   "zvw": 0.0,
+   "netto": 1000.0
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 1500,
+   "kosten": 3000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 0,
+   "inkomstenbelasting": 0.0,
+   "zvw": 0.0,
+   "netto": -1500.0
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 40000,
+   "kosten": 0,
+   "uren": 1225,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 32763.69,
+   "inkomstenbelasting": 3414.45,
+   "zvw": 1723.37,
+   "netto": 34862.18
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 40000,
+   "kosten": 0,
+   "uren": 1224,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 34920.0,
+   "inkomstenbelasting": 4323.49,
+   "zvw": 1836.79,
+   "netto": 33839.72
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 90000,
+   "kosten": 12000,
+   "uren": 1400,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 64084.31,
+   "inkomstenbelasting": 19390.69,
+   "zvw": 3370.83,
+   "netto": 55238.48
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 70000,
+   "kosten": 2000,
+   "uren": 1250,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 57207.69,
+   "inkomstenbelasting": 15584.36,
+   "zvw": 3009.12,
+   "netto": 49406.51
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 120000,
+   "kosten": 20000,
+   "uren": 1500,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 85143.69,
+   "inkomstenbelasting": 32167.41,
+   "zvw": 3990.45,
+   "netto": 63842.14
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 55000,
+   "kosten": 7000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 39747.69,
+   "inkomstenbelasting": 6631.91,
+   "zvw": 2090.73,
+   "netto": 39277.36
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2025,
+  "input": {
+   "omzet": 200000,
+   "kosten": 25000,
+   "uren": 1700,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 148765.31,
+   "inkomstenbelasting": 66920.71,
+   "zvw": 3990.45,
+   "netto": 104088.84
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2025,
+  "input": {
+   "winst": 60000,
+   "extraKostenBv": 2500
+  },
+  "expected": {
+   "salaris": 53985.54,
+   "vpb": 0.0,
+   "box2": 0.0,
+   "netto": 40725.37
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2025,
+  "input": {
+   "winst": 100000,
+   "extraKostenBv": 2500
+  },
+  "expected": {
+   "salaris": 56000,
+   "vpb": 7192.34,
+   "box2": 7512.21,
+   "netto": 64875.87
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2025,
+  "input": {
+   "winst": 150000,
+   "extraKostenBv": 2500
+  },
+  "expected": {
+   "salaris": 56000,
+   "vpb": 16692.34,
+   "box2": 17652.98,
+   "netto": 95235.1
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2025,
+  "input": {
+   "winst": 250000,
+   "extraKostenBv": 3000
+  },
+  "expected": {
+   "salaris": 56000,
+   "vpb": 35597.34,
+   "box2": 42637.43,
+   "netto": 150845.65
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2025,
+  "input": {
+   "winst": 40000,
+   "extraKostenBv": 2000
+  },
+  "expected": {
+   "salaris": 35677.4,
+   "vpb": 0.0,
+   "box2": 0.0,
+   "netto": 30937.0
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 20000,
+   "kosten": 2000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 14666.4,
+   "inkomstenbelasting": 0.0,
+   "zvw": 711.32,
+   "netto": 17288.68
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 35000,
+   "kosten": 3000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 26888.4,
+   "inkomstenbelasting": 1077.6,
+   "zvw": 1304.09,
+   "netto": 29618.31
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 45000,
+   "kosten": 5000,
+   "uren": 1300,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 32019.02,
+   "inkomstenbelasting": 2901.89,
+   "zvw": 1552.92,
+   "netto": 35545.18
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 60000,
+   "kosten": 6000,
+   "uren": 1400,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 46094.4,
+   "inkomstenbelasting": 9403.25,
+   "zvw": 2235.58,
+   "netto": 42361.18
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 80000,
+   "kosten": 8000,
+   "uren": 1400,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 61808.4,
+   "inkomstenbelasting": 17482.61,
+   "zvw": 2997.71,
+   "netto": 51519.69
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 80000,
+   "kosten": 8000,
+   "uren": 1000,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 62856.0,
+   "inkomstenbelasting": 17943.11,
+   "zvw": 3048.52,
+   "netto": 51008.37
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 100000,
+   "kosten": 10000,
+   "uren": 1500,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 77522.4,
+   "inkomstenbelasting": 26943.9,
+   "zvw": 3759.84,
+   "netto": 59296.26
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 100000,
+   "kosten": 10000,
+   "uren": 1500,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 75669.02,
+   "inkomstenbelasting": 26129.19,
+   "zvw": 3669.95,
+   "netto": 60200.86
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 130000,
+   "kosten": 15000,
+   "uren": 1600,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 99347.4,
+   "inkomstenbelasting": 39811.5,
+   "zvw": 3851.34,
+   "netto": 71337.17
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 150000,
+   "kosten": 10000,
+   "uren": 1600,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 121172.4,
+   "inkomstenbelasting": 52160.51,
+   "zvw": 3851.34,
+   "netto": 83988.16
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 250000,
+   "kosten": 30000,
+   "uren": 1800,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 191012.4,
+   "inkomstenbelasting": 87944.41,
+   "zvw": 3851.34,
+   "netto": 128204.25
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 5000,
+   "kosten": 4000,
+   "uren": 1300,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 0,
+   "inkomstenbelasting": 0.0,
+   "zvw": 0.0,
+   "netto": 1000.0
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 1500,
+   "kosten": 3000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 0,
+   "inkomstenbelasting": 0.0,
+   "zvw": 0.0,
+   "netto": -1500.0
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 40000,
+   "kosten": 0,
+   "uren": 1225,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 33872.4,
+   "inkomstenbelasting": 3683.06,
+   "zvw": 1642.81,
+   "netto": 34674.13
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 40000,
+   "kosten": 0,
+   "uren": 1224,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 34920.0,
+   "inkomstenbelasting": 4124.6,
+   "zvw": 1693.62,
+   "netto": 34181.78
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 90000,
+   "kosten": 12000,
+   "uren": 1400,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 65193.02,
+   "inkomstenbelasting": 19361.02,
+   "zvw": 3161.86,
+   "netto": 55477.12
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 70000,
+   "kosten": 2000,
+   "uren": 1250,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 58316.4,
+   "inkomstenbelasting": 15687.19,
+   "zvw": 2828.35,
+   "netto": 49484.46
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 120000,
+   "kosten": 20000,
+   "uren": 1500,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 86252.4,
+   "inkomstenbelasting": 32125.52,
+   "zvw": 3851.34,
+   "netto": 64023.15
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 55000,
+   "kosten": 7000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 40856.4,
+   "inkomstenbelasting": 6710.13,
+   "zvw": 1981.54,
+   "netto": 39308.34
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2026,
+  "input": {
+   "omzet": 200000,
+   "kosten": 25000,
+   "uren": 1700,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 149874.02,
+   "inkomstenbelasting": 67119.84,
+   "zvw": 3851.34,
+   "netto": 104028.83
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2026,
+  "input": {
+   "winst": 60000,
+   "extraKostenBv": 2500
+  },
+  "expected": {
+   "salaris": 54194.16,
+   "vpb": 0.0,
+   "box2": 0.0,
+   "netto": 41217.78
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2026,
+  "input": {
+   "winst": 100000,
+   "extraKostenBv": 2500
+  },
+  "expected": {
+   "salaris": 58000,
+   "vpb": 6832.78,
+   "box2": 7136.66,
+   "netto": 65095.45
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2026,
+  "input": {
+   "winst": 150000,
+   "extraKostenBv": 2500
+  },
+  "expected": {
+   "salaris": 58000,
+   "vpb": 16332.78,
+   "box2": 17110.26,
+   "netto": 95621.85
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2026,
+  "input": {
+   "winst": 250000,
+   "extraKostenBv": 3000
+  },
+  "expected": {
+   "salaris": 58000,
+   "vpb": 35237.78,
+   "box2": 42094.71,
+   "netto": 151232.4
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2026,
+  "input": {
+   "winst": 40000,
+   "extraKostenBv": 2000
+  },
+  "expected": {
+   "salaris": 35815.27,
+   "vpb": 0.0,
+   "box2": 0.0,
+   "netto": 31231.75
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 20000,
+   "kosten": 2000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 14928.3,
+   "inkomstenbelasting": 0.0,
+   "zvw": 749.4,
+   "netto": 17250.6
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 35000,
+   "kosten": 3000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 27150.3,
+   "inkomstenbelasting": 1077.84,
+   "zvw": 1362.95,
+   "netto": 29559.21
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 45000,
+   "kosten": 5000,
+   "uren": 1300,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 34125.57,
+   "inkomstenbelasting": 3665.54,
+   "zvw": 1713.1,
+   "netto": 34621.36
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 60000,
+   "kosten": 6000,
+   "uren": 1400,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 46356.3,
+   "inkomstenbelasting": 9271.34,
+   "zvw": 2327.09,
+   "netto": 42401.57
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 80000,
+   "kosten": 8000,
+   "uren": 1400,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 62070.3,
+   "inkomstenbelasting": 17437.45,
+   "zvw": 3115.93,
+   "netto": 51446.63
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 80000,
+   "kosten": 8000,
+   "uren": 1000,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 62856.0,
+   "inkomstenbelasting": 17787.16,
+   "zvw": 3155.37,
+   "netto": 51057.47
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 100000,
+   "kosten": 10000,
+   "uren": 1500,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 77784.3,
+   "inkomstenbelasting": 26672.0,
+   "zvw": 3904.77,
+   "netto": 59423.23
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 100000,
+   "kosten": 10000,
+   "uren": 1500,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 77775.57,
+   "inkomstenbelasting": 26668.12,
+   "zvw": 3904.33,
+   "netto": 59427.55
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 130000,
+   "kosten": 15000,
+   "uren": 1600,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 99609.3,
+   "inkomstenbelasting": 39640.4,
+   "zvw": 4143.86,
+   "netto": 71215.74
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 150000,
+   "kosten": 10000,
+   "uren": 1600,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 121434.3,
+   "inkomstenbelasting": 52320.32,
+   "zvw": 4143.86,
+   "netto": 83535.82
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 250000,
+   "kosten": 30000,
+   "uren": 1800,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 191274.3,
+   "inkomstenbelasting": 88043.26,
+   "zvw": 4143.86,
+   "netto": 127812.88
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 5000,
+   "kosten": 4000,
+   "uren": 1300,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 78.57,
+   "inkomstenbelasting": 0.0,
+   "zvw": 3.94,
+   "netto": 996.06
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 1500,
+   "kosten": 3000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 0,
+   "inkomstenbelasting": 0.0,
+   "zvw": 0.0,
+   "netto": -1500.0
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 40000,
+   "kosten": 0,
+   "uren": 1225,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 34134.3,
+   "inkomstenbelasting": 3669.25,
+   "zvw": 1713.54,
+   "netto": 34617.2
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 40000,
+   "kosten": 0,
+   "uren": 1224,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 34920.0,
+   "inkomstenbelasting": 4003.81,
+   "zvw": 1752.98,
+   "netto": 34243.21
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 90000,
+   "kosten": 12000,
+   "uren": 1400,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 67299.57,
+   "inkomstenbelasting": 20155.59,
+   "zvw": 3378.44,
+   "netto": 54465.97
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 70000,
+   "kosten": 2000,
+   "uren": 1250,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 58578.3,
+   "inkomstenbelasting": 15622.76,
+   "zvw": 2940.63,
+   "netto": 49436.61
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 120000,
+   "kosten": 20000,
+   "uren": 1500,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 86514.3,
+   "inkomstenbelasting": 31965.85,
+   "zvw": 4143.86,
+   "netto": 63890.29
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 55000,
+   "kosten": 7000,
+   "uren": 1300,
+   "starter": false
+  },
+  "expected": {
+   "belastbareWinst": 41118.3,
+   "inkomstenbelasting": 6549.31,
+   "zvw": 2064.14,
+   "netto": 39386.55
+  }
+ },
+ {
+  "kind": "netto",
+  "year": 2027,
+  "input": {
+   "omzet": 200000,
+   "kosten": 25000,
+   "uren": 1700,
+   "starter": true
+  },
+  "expected": {
+   "belastbareWinst": 151980.57,
+   "inkomstenbelasting": 67945.77,
+   "zvw": 4143.86,
+   "netto": 102910.37
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2027,
+  "input": {
+   "winst": 60000,
+   "extraKostenBv": 2500
+  },
+  "expected": {
+   "salaris": 54107.46,
+   "vpb": 0.0,
+   "box2": 0.0,
+   "netto": 41379.08
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2027,
+  "input": {
+   "winst": 100000,
+   "extraKostenBv": 2500
+  },
+  "expected": {
+   "salaris": 58000,
+   "vpb": 6814.05,
+   "box2": 7117.09,
+   "netto": 65217.91
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2027,
+  "input": {
+   "winst": 150000,
+   "extraKostenBv": 2500
+  },
+  "expected": {
+   "salaris": 58000,
+   "vpb": 16314.05,
+   "box2": 17039.59,
+   "netto": 95795.41
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2027,
+  "input": {
+   "winst": 250000,
+   "extraKostenBv": 3000
+  },
+  "expected": {
+   "salaris": 58000,
+   "vpb": 35219.05,
+   "box2": 42020.29,
+   "netto": 151409.7
+  }
+ },
+ {
+  "kind": "bv",
+  "year": 2027,
+  "input": {
+   "winst": 40000,
+   "extraKostenBv": 2000
+  },
+  "expected": {
+   "salaris": 35757.97,
+   "vpb": 0.0,
+   "box2": 0.0,
+   "netto": 31321.2
+  }
+ }
+]

@@ -1,0 +1,22 @@
+---
+export interface FaqItem { q: string; a: string }
+interface Props { items: FaqItem[] }
+const { items } = Astro.props;
+---
+<section class="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title">Veelgestelde vragen</h2>
+  {items.map((it) => (
+    <details>
+      <summary>{it.q}</summary>
+      <div class="a" set:html={it.a} />
+    </details>
+  ))}
+</section>
+
+<style>
+  .faq { max-width: 68ch; }
+  details { border-bottom: 1px solid var(--line); padding: 12px 0; }
+  summary { cursor: pointer; font-weight: 700; list-style-position: outside; }
+  .a { margin-top: 8px; }
+  .a :global(p:last-child) { margin-bottom: 0; }
+</style>

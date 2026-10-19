@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NettoCalc from '../components/NettoCalc.svelte';
+import Faq from '../components/Faq.astro';
+import { faqSchema, toolSchema } from '../components/faqSchema';
+import { getRules } from '../rules';
+import { SITE } from '../site';
+
+const r25 = getRules(2025), r26 = getRules(2026), r27 = getRules(2027);
+const eur = (n: number) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+const pct = (n: number) => new Intl.NumberFormat('nl-NL', { style: 'percent', maximumFractionDigits: 2 }).format(n);
+
+const title = 'Netto inkomen zzp berekenen (2025, 2026 en 2027)';
+const description = 'Bereken wat je als zzp\'er netto overhoudt van je winst, en zie meteen het verschil tussen 2025, 2026 en 2027. Met alle aftrekposten, heffingskortingen en bronnen.';
+
+const faq = [
+  { q: 'Hoeveel houd ik netto over als zzp\'er?', a: `<p>Dat hangt af van je winst, of je het urencriterium haalt en of je starter bent. Vul je omzet en kosten in de rekenhulp hierboven in. Je ziet dan per jaar wat je aan inkomstenbelasting en bijdrage Zvw betaalt en wat er netto overblijft.</p>` },
+  { q: 'Wat is het verschil tussen omzet en winst?', a: `<p>Omzet is alles wat je factureert, zonder btw. Winst is omzet min je zakelijke kosten, zoals je laptop, software en reiskosten. Over je winst betaal je inkomstenbelasting.</p>` },
+  { q: 'Waarom houd ik in 2027 minder over?', a: `<p>De zelfstandigenaftrek daalt van ${eur(r25.zelfstandigenaftrek.value)} in 2025 naar ${eur(r26.zelfstandigenaftrek.value)} in 2026 en ${eur(r27.zelfstandigenaftrek.value)} in 2027. Daardoor betaal je over een groter deel van je winst belasting. Ook andere tarieven en kortingen veranderen elk jaar.</p>` },
+  { q: 'Wat is de bijdrage Zvw?', a: `<p>Als zelfstandige betaal je zelf de inkomensafhankelijke bijdrage voor de Zorgverzekeringswet. In ${r26.year} is dat ${pct(r26.zvwOndernemer.value.rate)} van je belastbare winst, tot een maximum inkomen van ${eur(r26.zvwOndernemer.value.maxIncome)}. Je betaalt dit via de aanslag van de Belastingdienst.</p>` },
+  { q: 'Telt btw mee in deze berekening?', a: `<p>Nee. Btw draag je af aan de Belastingdienst; het is geen inkomen. Vul je omzet daarom zonder btw in.</p>` },
+];
+const jsonLd = [toolSchema(title, new URL('/netto-inkomen-zzp', 'https://' + SITE.domain).href, description), faqSchema(faq)];
+---
+<Layout title={`${title} | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd}>
+  <div class="wrap hero">
+    <h1>Netto inkomen als zzp'er</h1>
+    <p class="lede">Vul je omzet en kosten in. Je ziet wat je netto overhoudt in 2025, 2026 en 2027, en hoe dat bedrag is opgebouwd.</p>
+    <NettoCalc client:load />
+  </div>
+
+  <div class="wrap content prose">
+    <h2>Zo rekenen we</h2>
+    <p>We beginnen bij je winst: omzet min zakelijke kosten. Haal je het urencriterium van {r26.urencriterium.value} uur, dan gaat de zelfstandigenaftrek eraf, en als starter ook de startersaftrek. Van wat overblijft is {pct(r26.mkbWinstvrijstelling.value)} vrijgesteld (de MKB-winstvrijstelling).</p>
+    <p>Over de rest betaal je inkomstenbelasting in box 1. Daar gaan de algemene heffingskorting en de arbeidskorting weer af. Tot slot betaal je de inkomensafhankelijke bijdrage Zvw.</p>
+    <p>Bij elke uitkomst zie je welke cijfers we gebruikten en waar ze vandaan komen. Cijfers voor 2027 zijn voorlopig tot de Eerste Kamer het Belastingplan heeft aangenomen.</p>
+
+    <h3>Wat we niet meerekenen</h3>
+    <p>De rekenhulp gaat uit van een eenmanszaak, iemand onder de AOW-leeftijd en alleen inkomen uit je onderneming. Inkomen uit loondienst, hypotheekrente, toeslagen en je partner rekenen we niet mee. Maak je verlies, dan rekenen we niet met verliesverrekening.</p>
+
+    <div class="next">
+      <p>Wil je weten welk uurtarief je nodig hebt voor een bepaald netto inkomen? Gebruik de <a href="/uurtarief-berekenen-zzp">uurtarief-calculator</a>. Benieuwd of een BV voordeliger is? Bekijk <a href="/bv-of-eenmanszaak">BV of eenmanszaak</a>.</p>
+    </div>
+
+    <Faq items={faq} />
+  </div>
+</Layout>

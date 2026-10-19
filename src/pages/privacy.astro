@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../site';
+---
+<Layout title={`Privacy | ${SITE.name}`} description="Hoe zzpcheck met je gegevens omgaat: we slaan niets op, gebruiken geen tracking-cookies en delen je invoer met niemand." updated="2026-10-19">
+  <div class="wrap prose hero">
+    <h1>Privacy</h1>
+    <p>Kort gezegd: wat je invult, blijft op je eigen apparaat.</p>
+
+    <h2>Je invoer</h2>
+    <p>Alle berekeningen gebeuren in je browser. Bedragen, uren en andere invoer worden niet naar onze server gestuurd en niet opgeslagen.</p>
+    <p>Als je een uitkomst deelt, staan de ingevulde getallen in het deel van de link na het <code>#</code>-teken. Browsers sturen dat deel nooit naar een server. Wie de link krijgt, ziet dus dezelfde getallen; deel hem alleen met mensen die dat mogen zien.</p>
+
+    <h2>Statistieken</h2>
+    <p>We tellen bezoeken met Cloudflare Web Analytics. Dat werkt zonder cookies en zonder je over andere sites te volgen. We zien bijvoorbeeld hoeveel mensen een pagina bezochten, niet wie dat waren.</p>
+
+    <h2>Gesponsorde links</h2>
+    <p>Sommige pagina's tonen een link naar bijvoorbeeld een verzekeraar of boekhoudprogramma. Als je daarop klikt, verlaat je onze site en gelden de regels van die partij. We geven je invoer nooit door, ook niet via die link.</p>
+
+    <h2>Cookies</h2>
+    <p>Deze site plaatst zelf geen cookies. Daarom zie je ook geen cookiemelding.</p>
+
+    <h2>Contact</h2>
+    <p>Vragen over privacy? Mail naar <a href="mailto:privacy@zzpcheck.nl">privacy@zzpcheck.nl</a>.</p>
+  </div>
+</Layout>

@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../site';
+import { getRules } from '../rules';
+
+const r25 = getRules(2025), r26 = getRules(2026), r27 = getRules(2027);
+const eur = (n: number) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+
+const tools = [
+  { href: '/rechtsvermoeden-check', title: 'Val je onder het rechtsvermoeden?', text: `Check je uurtarief, of een lijst tarieven, tegen de grens van ${eur(r27.rechtsvermoedenDrempel.value ?? 38)} die vanaf 31 december 2026 geldt.` },
+  { href: '/netto-inkomen-zzp', title: 'Netto inkomen zzp', text: 'Wat houd je over van je winst? Zie 2025, 2026 en 2027 naast elkaar, met elke aftrekpost en korting.' },
+  { href: '/zelfstandigenaftrek-2027', title: 'Zelfstandigenaftrek 2027', text: `De aftrek daalt naar ${eur(r27.zelfstandigenaftrek.value)}. Bereken wat dat jou netto kost.` },
+  { href: '/uurtarief-berekenen-zzp', title: 'Uurtarief berekenen', text: 'Van gewenst netto inkomen naar het uurtarief dat je minimaal nodig hebt.' },
+  { href: '/bv-of-eenmanszaak', title: 'BV of eenmanszaak', text: 'Vergelijk je netto inkomen in beide vormen en zie vanaf welke winst een BV loont.' },
+];
+
+const timeline = [
+  { when: '1 januari 2025', what: `Zelfstandigenaftrek ${eur(r25.zelfstandigenaftrek.value)}. De Belastingdienst handhaaft weer op schijnzelfstandigheid (wet DBA).` },
+  { when: '1 januari 2026', what: `Zelfstandigenaftrek ${eur(r26.zelfstandigenaftrek.value)}.` },
+  { when: '31 december 2026', what: `Rechtsvermoeden van een arbeidsovereenkomst bij een uurtarief tot en met ${eur(r26.rechtsvermoedenDrempel.value ?? 38)}.` },
+  { when: '1 januari 2027', what: `Zelfstandigenaftrek ${eur(r27.zelfstandigenaftrek.value)}. Voorstel: startersaftrek omlaag naar ${eur(r27.startersaftrek.value)}.` },
+];
+
+const description = 'Gratis rekenhulpen voor zzp\'ers met de regels van 2025, 2026 en 2027: rechtsvermoeden-check, netto inkomen, zelfstandigenaftrek, uurtarief en BV of eenmanszaak. Met bronnen bij elke uitkomst.';
+---
+<Layout title={`${SITE.name}: rekenhulpen voor zzp'ers (2025-2027)`} description={description} updated="2026-10-19"
+  jsonLd={[{ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.name, url: 'https://' + SITE.domain, inLanguage: 'nl-NL' }]}>
+  <div class="wrap hero">
+    <h1>Rekenhulpen voor zzp'ers, met de regels van 2025, 2026 en 2027</h1>
+    <p class="lede">Elke uitkomst laat zien hoe hij is opgebouwd en uit welke wet of bron de cijfers komen. Alles wordt in je eigen browser berekend.</p>
+  </div>
+
+  <div class="wrap">
+    <ul class="tools">
+      {tools.map((t) => (
+        <li>
+          <a href={t.href}>
+            <strong>{t.title}</strong>
+            <span>{t.text}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <section class="timeline" aria-labelledby="tl">
+      <h2 id="tl">Wat er verandert voor zzp'ers</h2>
+      <ol>
+        {timeline.map((t) => (
+          <li><time>{t.when}</time><p>{t.what}</p></li>
+        ))}
+      </ol>
+      <p class="hint">Cijfers voor 2027 zijn deels voorlopig tot de Eerste Kamer het Belastingplan 2027 heeft aangenomen, naar verwachting half december 2026. We werken de rekenhulpen dan bij.</p>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .tools { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 12px; }
+  @media (min-width: 720px) { .tools { grid-template-columns: 1fr 1fr; } .tools li:first-child { grid-column: 1 / -1; } }
+  .tools a {
+    display: grid; gap: 4px; padding: 16px 18px; background: var(--sheet); border: 1px solid var(--line);
+    border-left: 4px solid var(--accent); border-radius: var(--radius); color: var(--ink); text-decoration: none; height: 100%;
+  }
+  .tools a:hover { border-color: var(--accent); }
+  .tools strong { font-size: var(--step-1); color: var(--accent); }
+  .tools li:first-child strong { font-size: var(--step-2); }
+  .tools span { color: var(--ink-soft); }
+
+  .timeline { margin-top: 48px; max-width: 68ch; }
+  .timeline ol { list-style: none; padding: 0; margin: 0; border-left: 2px solid var(--line); }
+  .timeline li { position: relative; padding: 0 0 18px 20px; }
+  .timeline li::before { content: ''; position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--sheet); border: 2px solid var(--accent); }
+  .timeline time { font-weight: 700; }
+  .timeline p { margin: 2px 0 0; }
+  .hint { color: var(--ink-soft); font-size: var(--step--1); }
+</style>

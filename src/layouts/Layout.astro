@@ -1,0 +1,93 @@
+---
+import '../styles/global.css';
+import { SITE } from '../site';
+
+interface Props {
+  title: string;
+  description: string;
+  updated?: string; // ISO date
+  jsonLd?: object[];
+}
+const { title, description, updated, jsonLd = [] } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const path = Astro.url.pathname.replace(/\.html$/, '');
+const fmtDate = (d: string) =>
+  new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(d));
+---
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="nl_NL" />
+  <meta name="theme-color" content="#0e5a6b" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  {jsonLd.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+</head>
+<body>
+  <a class="skip" href="#main">Naar de inhoud</a>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="logo" href="/" aria-label={`${SITE.name}, naar de homepage`}>
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="3" y="2" width="18" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 7h10M7 11h6M7 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M13 16.5l2 2 3.5-4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>{SITE.name}</span>
+      </a>
+      <nav aria-label="Rekenhulpen">
+        <ul>
+          {SITE.tools.map((t) => (
+            <li><a href={t.href} aria-current={path === t.href ? 'page' : undefined}>{t.short}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <slot />
+    {updated && (
+      <div class="wrap">
+        <p class="updated">Laatst bijgewerkt: <time datetime={updated}>{fmtDate(updated)}</time></p>
+      </div>
+    )}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap foot">
+      <p><strong>{SITE.name}</strong> is een onafhankelijke site met rekenhulpen voor zzp'ers. We zijn niet verbonden aan de Belastingdienst of de KVK.</p>
+      <p>Aan de uitkomsten kunnen geen rechten worden ontleend. Alle berekeningen gebeuren in je eigen browser; we slaan geen invoer op.</p>
+      <p><a href="/privacy">Privacy</a> · <a href="/over">Over deze site en bronnen</a></p>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style>
+  .skip { position: absolute; left: -9999px; }
+  .skip:focus { left: var(--gutter); top: 8px; background: var(--sheet); padding: 8px 12px; z-index: 10; }
+
+  .site-header { background: var(--sheet); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; flex-wrap: wrap; }
+  .logo { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; font-weight: 700; font-size: var(--step-1); }
+  .logo svg { color: var(--accent); }
+  nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; padding: 8px 0; }
+  nav a { color: var(--ink-soft); text-decoration: none; font-size: var(--step--1); padding: 4px 0; border-bottom: 2px solid transparent; }
+  nav a:hover { color: var(--ink); }
+  nav a[aria-current='page'] { color: var(--ink); border-bottom-color: var(--accent); }
+
+  main { padding-bottom: 48px; }
+  .updated { color: var(--ink-soft); font-size: var(--step--1); margin-top: 32px; }
+
+  .site-footer { border-top: 1px solid var(--line); background: var(--sheet); color: var(--ink-soft); font-size: var(--step--1); }
+  .foot { padding-top: 24px; padding-bottom: 32px; max-width: 760px; margin-left: 0; }
+  @media (min-width: 1120px) { .foot { margin-left: auto; margin-right: auto; max-width: 1120px; } }
+  .foot p { max-width: 68ch; }
+</style>
