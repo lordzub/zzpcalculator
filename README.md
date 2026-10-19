@@ -1,4 +1,4 @@
-# zzpcheck
+# zzpreken
 
 Dutch-language calculators for zzp'ers, built with Astro and Svelte. All calculations run in the browser; nothing is stored or sent to a server.
 
@@ -50,7 +50,7 @@ CI (`.github/workflows/ci.yml`) runs the tests before the build, so a mismatch b
 
 ## Open items before launch
 
-- [ ] Domain: `zzpcheck.nl` is a placeholder (`astro.config.mjs` `site`, `src/site.ts`, `public/robots.txt`, mail addresses on `/privacy` and `/over`).
+- [ ] Domain: `zzpreken.nl` is a placeholder (`astro.config.mjs` `site`, `src/site.ts`, `public/robots.txt`, mail addresses on `/privacy` and `/over`).
 - [ ] Affiliate links in `src/site.ts` are placeholders (`pending: true`) until Daisycon approves.
 - [ ] 2027 figures marked voorstel/voorlopig: update after the Eerste Kamer vote (mid-December 2026), the minimumloon (November) and the Zvw regeling (November).
 - [ ] 2027 arbeidskorting band thresholds are estimates (2026 × 1.01248); replace when the official table is published.

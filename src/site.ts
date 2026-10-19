@@ -1,6 +1,6 @@
 export const SITE = {
-  name: 'zzpcheck',
-  domain: 'zzpcheck.nl',
+  name: 'zzpreken',
+  domain: 'zzpreken.nl',
   tools: [
     { href: '/rechtsvermoeden-check', short: 'Tariefcheck', title: 'Val je onder het rechtsvermoeden?' },
     { href: '/netto-inkomen-zzp', short: 'Netto inkomen', title: 'Netto inkomen zzp 2025, 2026 en 2027' },

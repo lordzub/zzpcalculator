@@ -3,7 +3,7 @@ import svelte from '@astrojs/svelte';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://zzpcheck.nl',
+  site: 'https://zzpreken.nl',
   trailingSlash: 'never',
   build: { format: 'file' },
   integrations: [svelte(), sitemap()],
