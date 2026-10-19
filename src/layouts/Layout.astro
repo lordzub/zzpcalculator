@@ -11,7 +11,7 @@ interface Props {
 const { title, description, updated, jsonLd = [] } = Astro.props;
 // Cloudflare Web Analytics (cookieless). Set PUBLIC_CF_BEACON in Cloudflare Pages to enable.
 const beacon = import.meta.env.PUBLIC_CF_BEACON;
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/'), Astro.site).href;
 const path = Astro.url.pathname.replace(/\.html$/, '');
 const fmtDate = (d: string) =>
   new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(d));
