@@ -30,7 +30,10 @@ export interface NettoResult {
 /**
  * Net income for an eenmanszaak, below AOW age, business income only.
  * Simplifications (stated on the site):
- *  - ondernemersaftrek is capped at the profit (no loss carry-forward modelled);
+ *  - ondernemersaftrek is capped at the profit. For starters the law allows a loss
+ *    (verliesverrekening) and non-starters can carry unused zelfstandigenaftrek forward
+ *    9 years; neither is modelled, which leaves this year's figures unchanged when
+ *    there is no other box 1 income;
  *  - heffingskortingen are capped at the income tax before credits (no split between
  *    belasting and premie volksverzekeringen);
  *  - no other box 1 income, deductions, toeslagen or partner effects.

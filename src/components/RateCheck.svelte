@@ -109,6 +109,7 @@
         {@const r = result.r}
         <div class="verdict {r.onderDrempel ? 'bad' : 'good'}" aria-live="polite">
           <strong class="big">{r.onderDrempel ? 'Op of onder de grens' : 'Boven de grens'}</strong>
+          {#if r.year === 2026}<p><strong>Let op:</strong> het rechtsvermoeden geldt pas vanaf 31 december 2026. Daarvoor heeft dit tarief nog geen gevolgen.</p>{/if}
           <p>Je effectieve uurtarief is <strong>{eur2.format(r.effectiefTarief)}</strong>. De grens in {r.year} is {eur2.format(r.drempel!)}.</p>
           {#if r.margeEuro !== 0}<p>Je zit {eur2.format(Math.abs(r.margeEuro!))} ({Math.abs(r.margeProcent!).toLocaleString('nl-NL')}%) {r.onderDrempel ? 'eronder' : 'erboven'}.</p>{:else}<p>Je zit precies op de grens; die telt mee.</p>{/if}
         </div>
