@@ -1,6 +1,10 @@
 export const SITE = {
   name: 'zzpreken',
   domain: 'zzpreken.nl',
+  /** Profiles of the site elsewhere (LinkedIn, GitHub...). Used as Organization.sameAs. */
+  sameAs: [] as string[],
+  /** Named author/reviewer shown on pages and in structured data. null = not shown. */
+  author: null as null | { name: string; role: string; url?: string },
   tools: [
     { href: '/rechtsvermoeden-check', short: 'Tariefcheck', title: 'Val je onder het rechtsvermoeden?' },
     { href: '/netto-inkomen-zzp', short: 'Netto inkomen', title: 'Netto inkomen zzp 2025, 2026 en 2027' },

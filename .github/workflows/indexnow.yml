@@ -1,0 +1,18 @@
+name: IndexNow
+# Tells Bing (and through it Copilot and ChatGPT search) about changed pages after a deploy.
+on:
+  push:
+    branches: [main]
+    paths: ['src/**', 'public/**']
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      # Give Cloudflare time to finish deploying before announcing the URLs.
+      - run: sleep 240
+      - name: Submit sitemap URLs to IndexNow
+        run: |
+          set -e
+          URLS=$(curl -fsS https://zzpreken.nl/sitemap-0.xml | grep -o '<loc>[^<]*</loc>' | sed 's/<\/\?loc>//g' | jq -R . | jq -s .)
+          jq -n --argjson urls "$URLS" '{host:"zzpreken.nl", key:"fd9830a4207d2686c2416c118e49e5db", keyLocation:"https://zzpreken.nl/fd9830a4207d2686c2416c118e49e5db.txt", urlList:$urls}' > body.json
+          curl -sS -o /dev/null -w "IndexNow HTTP %{http_code}\n" -X POST https://api.indexnow.org/indexnow -H 'Content-Type: application/json; charset=utf-8' --data @body.json

@@ -1,5 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Answer from '../components/Answer.astro';
+import Src from '../components/Src.astro';
+import { vergelijkBv } from '../engine/bv';
 import BvCalc from '../components/BvCalc.svelte';
 import Faq from '../components/Faq.astro';
 import { faqSchema, toolSchema } from '../components/faqSchema';
@@ -23,11 +26,12 @@ const faq = [
   { q: 'Raak ik met een BV mijn ondernemersaftrek kwijt?', a: `<p>Ja. Zelfstandigenaftrek, startersaftrek en MKB-winstvrijstelling gelden alleen voor ondernemers in de inkomstenbelasting, zoals een eenmanszaak. Daarom is een BV bij een lagere winst meestal duurder.</p>` },
 ];
 const jsonLd = [toolSchema(title, new URL('/bv-of-eenmanszaak', 'https://' + SITE.domain).href, description), faqSchema(faq)];
+const vb = vergelijkBv({ winst: 100000, levensbehoefte: 0, extraKostenBv: 2500, uitkeren: 'alles' }, r26);
 ---
-<Layout title={`${title} | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd}>
+<Layout title={`${title} | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd} crumbs={[{ name: 'BV of eenmanszaak', href: '/bv-of-eenmanszaak' }]}>
   <div class="wrap hero">
     <h1>BV of eenmanszaak?</h1>
-    <p class="lede">Vul je verwachte winst in en wat je nodig hebt om van te leven. Je ziet wat je netto overhoudt in beide vormen, en wat er in de BV blijft.</p>
+    <Answer><p>In 2026 levert een BV die alles uitkeert netto meer op vanaf ongeveer <strong>{be != null ? eur(be) : '—'} winst</strong> (bij {eur(2500)} extra BV-kosten per jaar). Bij {eur(100000)} winst houd je met een eenmanszaak {eur(vb.eenmanszaak.netto)} over en met een BV {eur(vb.bv.netto)}. Gebruikelijk loon {eur(r26.gebruikelijkLoon.value)} <Src r={r26.gebruikelijkLoon} />.</p></Answer>
     <BvCalc client:load />
   </div>
 

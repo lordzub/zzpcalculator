@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Answer from '../components/Answer.astro';
+import Src from '../components/Src.astro';
+import { getRules } from '../rules';
+import { nettoEenmanszaak } from '../engine/netto';
+import { eur, eur2, pct, CONTENT_UPDATED } from '../lib/fmt';
+import { SITE } from '../site';
+
+const a = getRules(2026), b = getRules(2027);
+const ex = [40000, 60000, 80000, 120000].map((w) => {
+  const n26 = nettoEenmanszaak({ omzet: w, kosten: 0, uren: 1400, starter: false }, a).netto;
+  const n27 = nettoEenmanszaak({ omzet: w, kosten: 0, uren: 1400, starter: false }, b).netto;
+  return { w, n26, n27, d: n27 - n26 };
+});
+const st26 = nettoEenmanszaak({ omzet: 50000, kosten: 0, uren: 1400, starter: true }, a).netto;
+const st27 = nettoEenmanszaak({ omzet: 50000, kosten: 0, uren: 1400, starter: true }, b).netto;
+
+const changes = [
+  { what: 'Zelfstandigenaftrek', from: eur(a.zelfstandigenaftrek.value), to: eur(b.zelfstandigenaftrek.value), r: b.zelfstandigenaftrek },
+  { what: 'Startersaftrek', from: eur(a.startersaftrek.value), to: eur(b.startersaftrek.value), r: b.startersaftrek },
+  { what: 'Tarief box 1, schijf 1', from: pct(a.box1Brackets.value[0].rate), to: pct(b.box1Brackets.value[0].rate), r: b.box1Brackets },
+  { what: 'Tarief box 1, schijf 2', from: pct(a.box1Brackets.value[1].rate), to: pct(b.box1Brackets.value[1].rate), r: b.box1Brackets },
+  { what: 'Grens toptarief', from: eur(a.box1Brackets.value[1].upTo!), to: eur(b.box1Brackets.value[1].upTo!), r: b.box1Brackets },
+  { what: 'Algemene heffingskorting (max.)', from: eur(a.algemeneHeffingskorting.value[0].base), to: eur(b.algemeneHeffingskorting.value[0].base), r: b.algemeneHeffingskorting },
+  { what: 'Arbeidskorting (max.)', from: eur(a.arbeidskorting.value.at(-1)!.base), to: eur(b.arbeidskorting.value.at(-1)!.base), r: b.arbeidskorting },
+  { what: 'Bijdrage Zvw ondernemer', from: pct(a.zvwOndernemer.value.rate), to: pct(b.zvwOndernemer.value.rate), r: b.zvwOndernemer },
+  { what: 'Grens box 2', from: eur(a.box2.value[0].upTo!), to: eur(b.box2.value[0].upTo!), r: b.box2 },
+];
+const title = 'Wat verandert er in 2027 voor zzp\'ers?';
+const description = `De belangrijkste wijzigingen voor zzp'ers in 2027: zelfstandigenaftrek ${eur(b.zelfstandigenaftrek.value)}, startersaftrek naar ${eur(b.startersaftrek.value)} (voorstel), nieuwe tarieven en het rechtsvermoeden bij ${eur(b.rechtsvermoedenDrempel.value ?? 38)} per uur. Met bedragen en bronnen.`;
+---
+<Layout title={`${title} | ${SITE.name}`} description={description} updated={CONTENT_UPDATED} pageType="Article"
+  crumbs={[{ name: 'Wat verandert er in 2027', href: '/wat-verandert-er-2027' }]}>
+  <div class="wrap prose hero">
+    <h1>Wat verandert er in 2027 voor zzp'ers?</h1>
+    <Answer>
+      <p>In 2027 daalt de zelfstandigenaftrek van {eur(a.zelfstandigenaftrek.value)} naar <strong>{eur(b.zelfstandigenaftrek.value)}</strong> <Src r={b.zelfstandigenaftrek} />, en het Belastingplan 2027 stelt voor de startersaftrek te verlagen van {eur(a.startersaftrek.value)} naar <strong>{eur(b.startersaftrek.value)}</strong> <Src r={b.startersaftrek} />. Vanaf 31 december 2026 geldt bovendien het rechtsvermoeden van een arbeidsovereenkomst bij een uurtarief tot en met {eur2(b.rechtsvermoedenDrempel.value ?? 38)}.</p>
+    </Answer>
+
+    <h2>Alle wijzigingen op een rij</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Regel</th><th>2026</th><th>2027</th><th>Status 2027</th></tr></thead>
+        <tbody>
+          {changes.map((c) => <tr><td>{c.what}</td><td>{c.from}</td><td><strong>{c.to}</strong></td><td><Src r={c.r} /></td></tr>)}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Wat betekent het voor je netto inkomen?</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Winst</th><th>Netto 2026</th><th>Netto 2027</th><th>Verschil</th></tr></thead>
+        <tbody>
+          {ex.map((e) => <tr><td>{eur(e.w)}</td><td>{eur(e.n26)}</td><td>{eur(e.n27)}</td><td>{e.d >= 0 ? '+' : '−'}{eur(Math.abs(e.d))}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p>Voor de meeste zzp'ers is het verschil klein: de lagere zelfstandigenaftrek wordt grotendeels gecompenseerd door hogere schijfgrenzen en heffingskortingen. Starters merken het wel: bij {eur(50000)} winst houdt een starter in 2027 {eur(st26 - st27)} minder over dan in 2026, vooral door de lagere startersaftrek.</p>
+
+    <h2>Belangrijke data</h2>
+    <ul>
+      <li><strong>November 2026:</strong> minimumloon en Zvw-percentages voor 2027 worden vastgesteld.</li>
+      <li><strong>Half december 2026:</strong> de Eerste Kamer stemt over het Belastingplan 2027. Daarna werken we de cijfers bij van voorstel naar definitief.</li>
+      <li><strong>31 december 2026:</strong> het rechtsvermoeden bij een laag uurtarief gaat in. <a href="/rechtsvermoeden-check">Check je tarief</a>.</li>
+      <li><strong>1 januari 2027:</strong> de nieuwe tarieven en aftrekposten gaan in.</li>
+    </ul>
+
+    <p>Alle cijfers voor 2027 staan op <a href="/belastingcijfers-2027">belastingcijfers 2027</a>. Wat er precies verandert in jouw situatie: <a href="/netto-inkomen-zzp?jaar=2027">reken het uit</a>.</p>
+  </div>
+</Layout>

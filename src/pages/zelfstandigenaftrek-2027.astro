@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Answer from '../components/Answer.astro';
+import Src from '../components/Src.astro';
 import NettoCalc from '../components/NettoCalc.svelte';
 import Faq from '../components/Faq.astro';
 import { faqSchema, toolSchema } from '../components/faqSchema';
@@ -20,11 +22,12 @@ const faq = [
   { q: 'Waarom wordt de zelfstandigenaftrek verlaagd?', a: `<p>Het kabinet wil het verschil in belastingdruk tussen ondernemers en werknemers kleiner maken. Daarom wordt de aftrek sinds 2020 stap voor stap afgebouwd.</p>` },
 ];
 const jsonLd = [toolSchema(title, new URL('/zelfstandigenaftrek-2027', 'https://' + SITE.domain).href, description), faqSchema(faq)];
+
 ---
-<Layout title={`Zelfstandigenaftrek 2027 berekenen | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd}>
+<Layout title={`Zelfstandigenaftrek 2027 berekenen | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd} crumbs={[{ name: 'Zelfstandigenaftrek 2027', href: '/zelfstandigenaftrek-2027' }]}>
   <div class="wrap hero">
     <h1>Zelfstandigenaftrek 2027: wat kost het je?</h1>
-    <p class="lede">De aftrek daalt van {eur(r25.zelfstandigenaftrek.value)} (2025) naar {eur(r26.zelfstandigenaftrek.value)} (2026) en {eur(r27.zelfstandigenaftrek.value)} (2027). Vul je winst in en zie wat dat jou netto kost.</p>
+    <Answer><p>De zelfstandigenaftrek is in 2027 <strong>{eur(r27.zelfstandigenaftrek.value)}</strong> <Src r={r27.zelfstandigenaftrek} />, na {eur(r26.zelfstandigenaftrek.value)} in 2026 en {eur(r25.zelfstandigenaftrek.value)} in 2025. De startersaftrek gaat volgens het Belastingplan 2027 naar {eur(r27.startersaftrek.value)} <Src r={r27.startersaftrek} />. Vul je winst in en zie wat dat jou netto kost.</p></Answer>
     <NettoCalc client:load focus="aftrek" />
   </div>
 

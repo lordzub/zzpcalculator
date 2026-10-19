@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Answer from '../../components/Answer.astro';
+import Src from '../../components/Src.astro';
+import { getRules } from '../../rules';
+import { checkTarief } from '../../engine/rechtsvermoeden';
+import { eur, eur2, num, toolLink, CONTENT_UPDATED } from '../../lib/fmt';
+import { SITE } from '../../site';
+
+const r = getRules(2027);
+const d = r.rechtsvermoedenDrempel.value ?? 38;
+const tarieven = [30, 32, 34, 35, 36, 37, 37.5, 38, 38.5, 39, 40, 42, 45, 50];
+const vast = [
+  { bedrag: 1500, uren: 40 }, { bedrag: 3000, uren: 80 }, { bedrag: 6000, uren: 160 },
+  { bedrag: 6000, uren: 150 }, { bedrag: 12000, uren: 300 }, { bedrag: 20000, uren: 500 },
+];
+const title = `Rechtsvermoeden zzp: welke tarieven vallen onder de grens van ${eur(d)}?`;
+const description = `Tabel: welke uurtarieven en vaste prijzen vallen vanaf 31 december 2026 onder het rechtsvermoeden van een arbeidsovereenkomst (tot en met ${eur(d)} per uur)?`;
+---
+<Layout title={`${title} | ${SITE.name}`} description={description} updated={CONTENT_UPDATED}
+  crumbs={[{ name: 'Tariefcheck', href: '/rechtsvermoeden-check' }, { name: 'Tarieven', href: '/rechtsvermoeden-check/tarieven' }]}>
+  <div class="wrap prose hero">
+    <h1>Welke tarieven vallen onder het rechtsvermoeden?</h1>
+    <Answer>
+      <p>Vanaf <strong>31 december 2026</strong> geldt een rechtsvermoeden van een arbeidsovereenkomst bij een uurtarief van <strong>{eur(d)} of lager</strong> (zonder btw) <Src r={r.rechtsvermoedenDrempel} />. Precies {eur2(d)} valt er dus ook onder; {eur2(d + 0.01)} niet.</p>
+    </Answer>
+
+    <h2>Uurtarieven</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Uurtarief</th><th>Onder de grens?</th><th>Verschil met {eur(d)}</th></tr></thead>
+        <tbody>
+          {tarieven.map((t) => {
+            const c = checkTarief({ mode: 'uurtarief', uurtarief: t }, r);
+            return <tr><td>{eur2(t)}</td><td class={c.onderDrempel ? 'bad' : 'good'}>{c.onderDrempel ? 'Ja, rechtsvermoeden' : 'Nee'}</td><td>{c.margeEuro! >= 0 ? '+' : '−'}{eur2(Math.abs(c.margeEuro!))}</td></tr>;
+          })}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Vaste prijzen</h2>
+    <p>Bij een vaste prijs telt het effectieve uurtarief: het bedrag zonder btw gedeeld door het aantal uren dat je eraan werkt.</p>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Vaste prijs</th><th>Uren</th><th>Effectief uurtarief</th><th>Onder de grens?</th></tr></thead>
+        <tbody>
+          {vast.map((v) => {
+            const c = checkTarief({ mode: 'vast', bedrag: v.bedrag, uren: v.uren }, r);
+            return <tr><td>{eur(v.bedrag)}</td><td>{num(v.uren)}</td><td>{eur2(c.effectiefTarief)}</td><td class={c.onderDrempel ? 'bad' : 'good'}>{c.onderDrempel ? 'Ja' : 'Nee'}</td></tr>;
+          })}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Let op</h2>
+    <ul>
+      <li>{r.rechtsvermoedenDrempel.note}</li>
+      <li>Het is een vermoeden, geen eindoordeel: opdrachtgever of opdrachtnemer kan aantonen dat het een echte opdracht is.</li>
+      <li>Boven de grens geldt het vermoeden niet, maar de beoordeling van schijnzelfstandigheid (wet DBA) blijft gewoon bestaan.</li>
+    </ul>
+
+    <div class="next">
+      <p><a href={toolLink('/rechtsvermoeden-check', { jaar: 2027, modus: 'uur', tarief: 38 })}>Check je eigen tarief</a>, of plak een hele lijst tarieven tegelijk in de <a href="/rechtsvermoeden-check">tariefcheck</a>.</p>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  td.bad { color: var(--bad); font-weight: 700; }
+  td.good { color: var(--good); }
+</style>

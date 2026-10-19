@@ -1,5 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Answer from '../components/Answer.astro';
+import Src from '../components/Src.astro';
+import { nettoEenmanszaak } from '../engine/netto';
+import { eur as fEur } from '../lib/fmt';
 import NettoCalc from '../components/NettoCalc.svelte';
 import Faq from '../components/Faq.astro';
 import { faqSchema, toolSchema } from '../components/faqSchema';
@@ -21,11 +25,12 @@ const faq = [
   { q: 'Telt btw mee in deze berekening?', a: `<p>Nee. Btw draag je af aan de Belastingdienst; het is geen inkomen. Vul je omzet daarom zonder btw in.</p>` },
 ];
 const jsonLd = [toolSchema(title, new URL('/netto-inkomen-zzp', 'https://' + SITE.domain).href, description), faqSchema(faq)];
+const voorbeeld = nettoEenmanszaak({ omzet: 72000, kosten: 0, uren: 1400, starter: false }, r26);
 ---
-<Layout title={`${title} | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd}>
+<Layout title={`${title} | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd} crumbs={[{ name: 'Netto inkomen', href: '/netto-inkomen-zzp' }]}>
   <div class="wrap hero">
     <h1>Netto inkomen als zzp'er</h1>
-    <p class="lede">Vul je omzet en kosten in. Je ziet wat je netto overhoudt in 2025, 2026 en 2027, en hoe dat bedrag is opgebouwd.</p>
+    <Answer><p>Bij <strong>{fEur(72000)} winst</strong> houd je als zzp'er in 2026 <strong>{fEur(voorbeeld.netto)} netto</strong> over ({fEur(voorbeeld.nettoPerMaand)} per maand), met een zelfstandigenaftrek van {fEur(r26.zelfstandigenaftrek.value)} <Src r={r26.zelfstandigenaftrek} />. Vul hieronder je eigen omzet en kosten in, of bekijk de <a href="/voorbeelden">rekenvoorbeelden</a>.</p></Answer>
     <NettoCalc client:load />
   </div>
 

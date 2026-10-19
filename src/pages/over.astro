@@ -11,7 +11,7 @@ const labels: Record<string, string> = {
   rechtsvermoedenDrempel: 'Tariefgrens rechtsvermoeden',
 };
 ---
-<Layout title={`Over deze site en bronnen | ${SITE.name}`} description="Hoe zzpreken rekent, welke cijfers we gebruiken, waar ze vandaan komen en hoe vaak we ze bijwerken." updated="2026-10-19">
+<Layout title={`Over deze site en bronnen | ${SITE.name}`} description="Hoe zzpreken rekent, welke cijfers we gebruiken, waar ze vandaan komen en hoe vaak we ze bijwerken." updated="2026-10-19" pageType="AboutPage" crumbs={[{ name: 'Over deze site en bronnen', href: '/over' }]}>
   <div class="wrap prose hero">
     <h1>Over deze site en bronnen</h1>
     <p>{SITE.name} is een onafhankelijke site met rekenhulpen voor zzp'ers. We zijn niet verbonden aan de Belastingdienst, de KVK of een bank.</p>
@@ -24,6 +24,8 @@ const labels: Record<string, string> = {
       <li><strong>voorstel</strong>: staat in een wetsvoorstel dat nog kan veranderen.</li>
     </ul>
     <p>Voor elke versie draaien we een vaste set rekenvoorbeelden. Die worden ook met een apart, onafhankelijk rekenmodel berekend. Wijkt een uitkomst meer dan een paar cent af, dan gaat de site niet online.</p>
+
+    <p>Alle cijfers staan per jaar in een tabel (<a href="/belastingcijfers-2025">2025</a>, <a href="/belastingcijfers-2026">2026</a>, <a href="/belastingcijfers-2027">2027</a>) en als <a href="/open-data">open data</a>.</p>
 
     <h2>Wanneer we bijwerken</h2>
     <ul>
@@ -47,6 +49,22 @@ const labels: Record<string, string> = {
         </details>
       );
     })}
+
+    {SITE.author && (
+      <>
+        <h2>Wie maakt dit</h2>
+        <p>{SITE.name} wordt gemaakt en gecontroleerd door <strong>{SITE.author.name}</strong>, {SITE.author.role}.{SITE.author.url && <> <a href={SITE.author.url} rel="noopener">Profiel</a>.</>}</p>
+      </>
+    )}
+
+    <h2>Redactie en correcties</h2>
+    <ul>
+      <li>Elk cijfer komt uit een officiële bron: de Belastingdienst, de KVK, wetten.overheid.nl, de Staatscourant of het Belastingplan. Waar dat nog niet kan, staat er "voorlopig" of "voorstel" bij.</li>
+      <li>Nieuwe cijfers worden nagerekend met een apart, onafhankelijk rekenmodel. Een verschil van meer dan een paar cent blokkeert de publicatie.</li>
+      <li>Fouten herstellen we zodra we ervan horen, en we passen de datum "laatst bijgewerkt" alleen aan als er echt iets is veranderd.</li>
+      <li>Gesponsorde links hebben geen invloed op de berekeningen. Zie <a href="/hoe-we-geld-verdienen">hoe we geld verdienen</a>.</li>
+      <li>Dit is geen fiscaal advies. Twijfel je over je eigen situatie, vraag het dan een belastingadviseur of de Belastingdienst.</li>
+    </ul>
 
     <h2>Fout gezien?</h2>
     <p>Mail naar <a href="mailto:info@zzpreken.nl">info@zzpreken.nl</a>. Een fout in een cijfer herstellen we zo snel mogelijk.</p>

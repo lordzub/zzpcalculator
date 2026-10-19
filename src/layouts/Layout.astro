@@ -7,12 +7,43 @@ interface Props {
   description: string;
   updated?: string; // ISO date
   jsonLd?: object[];
+  /** Breadcrumb trail below the homepage, e.g. [{ name: 'Netto inkomen', href: '/netto-inkomen-zzp' }] */
+  crumbs?: { name: string; href: string }[];
+  /** Schema.org type of the main entity (WebPage, AboutPage, CollectionPage...) */
+  pageType?: string;
 }
-const { title, description, updated, jsonLd = [] } = Astro.props;
+const { title, description, updated, jsonLd = [], crumbs = [], pageType = 'WebPage' } = Astro.props;
 // Cloudflare Web Analytics (cookieless). Set PUBLIC_CF_BEACON in Cloudflare Pages to enable.
 const beacon = import.meta.env.PUBLIC_CF_BEACON;
 const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/'), Astro.site).href;
 const path = Astro.url.pathname.replace(/\.html$/, '');
+const base = 'https://' + SITE.domain;
+const org = {
+  '@type': 'Organization', '@id': base + '/#organization', name: SITE.name, url: base + '/',
+  logo: base + '/favicon.svg', description: "Onafhankelijke rekenhulpen voor zzp'ers met bronvermelding per cijfer.",
+  ...(SITE.sameAs.length ? { sameAs: SITE.sameAs } : {}),
+};
+const pageLd: Record<string, unknown>[] = [{
+  '@context': 'https://schema.org',
+  '@type': pageType,
+  '@id': canonical + '#webpage',
+  url: canonical,
+  name: title,
+  description,
+  inLanguage: 'nl-NL',
+  isPartOf: { '@type': 'WebSite', '@id': base + '/#website', name: SITE.name, url: base + '/', publisher: { '@id': base + '/#organization' } },
+  publisher: org,
+  ...(updated ? { dateModified: updated } : {}),
+  ...(SITE.author ? { author: { '@type': 'Person', name: SITE.author.name, ...(SITE.author.url ? { url: SITE.author.url } : {}) } } : {}),
+}];
+if (crumbs.length) {
+  pageLd.push({
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [{ name: 'Home', href: '/' }, ...crumbs].map((c, i) => ({
+      '@type': 'ListItem', position: i + 1, name: c.name, item: new URL(c.href, base).href,
+    })),
+  });
+}
 const fmtDate = (d: string) =>
   new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(d));
 ---
@@ -33,7 +64,8 @@ const fmtDate = (d: string) =>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  {jsonLd.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+  {[...pageLd, ...jsonLd].map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+  <link rel="alternate" type="text/plain" href="/llms.txt" title="Overzicht voor AI-assistenten" />
 </head>
 <body>
   <a class="skip" href="#main">Naar de inhoud</a>
@@ -54,6 +86,17 @@ const fmtDate = (d: string) =>
   </header>
 
   <main id="main">
+    {crumbs.length > 0 && (
+      <nav class="wrap crumbs" aria-label="Kruimelpad">
+        <a href="/">Home</a>
+        {crumbs.map((c, i) => (
+          <>
+            <span aria-hidden="true">/</span>
+            {i === crumbs.length - 1 ? <span aria-current="page">{c.name}</span> : <a href={c.href}>{c.name}</a>}
+          </>
+        ))}
+      </nav>
+    )}
     <slot />
     {updated && (
       <div class="wrap">
@@ -66,7 +109,7 @@ const fmtDate = (d: string) =>
     <div class="wrap foot">
       <p><strong>{SITE.name}</strong> is een onafhankelijke site met rekenhulpen voor zzp'ers. We zijn niet verbonden aan de Belastingdienst of de KVK.</p>
       <p>Aan de uitkomsten kunnen geen rechten worden ontleend. Alle berekeningen gebeuren in je eigen browser; we slaan geen invoer op.</p>
-      <p class="links"><a href="/privacy">Privacy</a> <a href="/over">Over deze site en bronnen</a></p>
+      <p class="links"><a href="/belastingcijfers-2026">Alle belastingcijfers</a> <a href="/voorbeelden">Rekenvoorbeelden</a> <a href="/over">Over deze site en bronnen</a> <a href="/hoe-we-geld-verdienen">Hoe we geld verdienen</a> <a href="/open-data">Open data</a> <a href="/privacy">Privacy</a></p>
     </div>
   </footer>
   {beacon && <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: beacon })}></script>}
@@ -93,5 +136,7 @@ const fmtDate = (d: string) =>
   .foot { padding-top: 24px; padding-bottom: 32px; max-width: 760px; margin-left: 0; }
   @media (min-width: 1120px) { .foot { margin-left: auto; margin-right: auto; max-width: 1120px; } }
   .foot p { max-width: 68ch; }
-  .links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .links { display: flex; gap: 6px 18px; flex-wrap: wrap; }
+  .crumbs { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 14px; font-size: var(--step--1); color: var(--ink-soft); }
+  .crumbs a { color: var(--ink-soft); }
 </style>

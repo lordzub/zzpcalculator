@@ -1,0 +1,11 @@
+---
+// Inline status + source next to a figure: "(definitief, bron: kvk.nl)".
+import type { Sourced } from '../engine/types';
+import { host, statusLabel } from '../lib/fmt';
+interface Props { r: Sourced<unknown> }
+const { r } = Astro.props;
+---
+<span class="src">({statusLabel(r.status)}, bron: <a href={r.source} rel="noopener">{host(r.source)}</a>)</span>
+<style>
+  .src { color: var(--ink-soft); font-size: 0.9em; white-space: nowrap; }
+</style>

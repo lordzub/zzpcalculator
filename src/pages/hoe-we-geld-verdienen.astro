@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../site';
+import { CONTENT_UPDATED } from '../lib/fmt';
+---
+<Layout title={`Hoe we geld verdienen | ${SITE.name}`} description="zzpreken is gratis. Zo verdienen we geld, en waarom dat nooit invloed heeft op de uitkomsten van de rekenhulpen." updated={CONTENT_UPDATED} pageType="AboutPage"
+  crumbs={[{ name: 'Hoe we geld verdienen', href: '/hoe-we-geld-verdienen' }]}>
+  <div class="wrap prose hero">
+    <h1>Hoe we geld verdienen</h1>
+    <p>Alle rekenhulpen op {SITE.name} zijn gratis en blijven dat. Om de site te onderhouden, tonen we op sommige pagina's een gesponsorde link naar bijvoorbeeld een verzekeraar of boekhoudprogramma. Sluit je via zo'n link iets af, dan krijgen we daar mogelijk een vergoeding voor.</p>
+
+    <h2>Wat dat níet betekent</h2>
+    <ul>
+      <li><strong>Geen invloed op de uitkomsten.</strong> De berekeningen gebruiken alleen de belastingregels en jouw invoer. Geen enkele partner kan een uitkomst beïnvloeden.</li>
+      <li><strong>Je invoer wordt nooit gedeeld.</strong> Alles wordt in je browser berekend. Gesponsorde links bevatten geen bedragen of andere gegevens die jij invult.</li>
+      <li><strong>Geen advies.</strong> We geven geen financieel of verzekeringsadvies en bemiddelen niet. Een gesponsorde link is altijd herkenbaar als "Gesponsorde link".</li>
+    </ul>
+
+    <h2>Waar het geld naartoe gaat</h2>
+    <p>Naar het bijhouden van de belastingcijfers: elk jaar rond Prinsjesdag, in december na de stemming in de Eerste Kamer en op 1 januari. Zie <a href="/over">over deze site en bronnen</a>.</p>
+  </div>
+</Layout>

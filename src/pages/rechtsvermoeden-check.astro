@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Answer from '../components/Answer.astro';
+import Src from '../components/Src.astro';
 import RateCheck from '../components/RateCheck.svelte';
 import Faq from '../components/Faq.astro';
 import { faqSchema, toolSchema } from '../components/faqSchema';
@@ -23,11 +25,12 @@ const faq = [
   { q: 'Hoe reken ik een vaste prijs om naar een uurtarief?', a: `<p>Deel het bedrag (zonder btw) door het aantal uren dat je verwacht te werken. Kies in de rekenhulp "Vaste prijs" en vul beide in.</p>` },
 ];
 const jsonLd = [toolSchema(title, new URL('/rechtsvermoeden-check', 'https://' + SITE.domain).href, description), faqSchema(faq)];
+
 ---
-<Layout title={`${title} | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd}>
+<Layout title={`${title} | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd} crumbs={[{ name: 'Tariefcheck', href: '/rechtsvermoeden-check' }]}>
   <div class="wrap hero">
     <h1>Val je onder het rechtsvermoeden?</h1>
-    <p class="lede">Vanaf 31 december 2026 wordt bij een tarief tot en met {eur0(d)} per uur vermoed dat je werknemer bent. Check je tarief, of een hele lijst tegelijk.</p>
+    <Answer><p>Vanaf <strong>31 december 2026</strong> wordt bij een uurtarief van <strong>{eur0(d)} of lager</strong> (zonder btw) vermoed dat je in loondienst werkt <Src r={r.rechtsvermoedenDrempel} />. Check hieronder je tarief, een vaste prijs of een hele lijst tegelijk, of bekijk de <a href="/rechtsvermoeden-check/tarieven">tabel met tarieven</a>.</p></Answer>
     <RateCheck client:load />
   </div>
 

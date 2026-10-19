@@ -1,0 +1,89 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Answer from '../../components/Answer.astro';
+import Src from '../../components/Src.astro';
+import { getRules } from '../../rules';
+import { berekenUurtarief } from '../../engine/uurtarief';
+import { UURTARIEF_NETTO, UUR_DEFAULTS, uurSlug } from '../../lib/examples';
+import { eur, eur2, num, toolLink, CONTENT_UPDATED } from '../../lib/fmt';
+import { SITE } from '../../site';
+
+export function getStaticPaths() {
+  return UURTARIEF_NETTO.map((n) => ({ params: { slug: uurSlug(n) }, props: { netto: n } }));
+}
+const { netto } = Astro.props as { netto: number };
+const MAIN = 2027;
+const JAREN = [2026, 2027];
+const UREN = [20, 24, 28, 32, 36];
+const calc = (y: number, uren: number) => berekenUurtarief({
+  nettoPerMaand: netto, declarabeleUrenPerWeek: uren, vakantieWeken: UUR_DEFAULTS.vakantieWeken,
+  kostenPerJaar: UUR_DEFAULTS.kostenPerJaar, pensioenPerMaand: 0, aovPerMaand: 0, starter: false,
+  totaleUrenPerJaar: UUR_DEFAULTS.totaleUrenPerJaar,
+}, getRules(y));
+const main = calc(MAIN, 28);
+const r27 = getRules(MAIN);
+const drempel = r27.rechtsvermoedenDrempel.value;
+const idx = UURTARIEF_NETTO.indexOf(netto);
+const neighbours = UURTARIEF_NETTO.filter((_, i) => Math.abs(i - idx) === 1);
+
+const title = `Uurtarief zzp voor ${eur(netto)} netto per maand (${MAIN})`;
+const description = `Voor ${eur(netto)} netto per maand heb je als zzp'er in ${MAIN} minimaal ${eur2(main.uurtarief)} per uur nodig bij 28 declarabele uren per week. Tabel per aantal uren voor 2026 en 2027, inclusief belasting en kosten.`;
+---
+<Layout title={`${title} | ${SITE.name}`} description={description} updated={CONTENT_UPDATED}
+  crumbs={[{ name: 'Uurtarief', href: '/uurtarief-berekenen-zzp' }, { name: `${eur(netto)} netto per maand`, href: `/uurtarief-berekenen-zzp/${uurSlug(netto)}` }]}>
+  <div class="wrap prose hero">
+    <h1>Uurtarief voor {eur(netto)} netto per maand</h1>
+    <Answer>
+      <p>Voor <strong>{eur(netto)} netto per maand</strong> heb je als zzp'er in {MAIN} minimaal <strong>{eur2(main.uurtarief)} per uur</strong> nodig, bij 28 declarabele uren per week en {UUR_DEFAULTS.vakantieWeken} weken zonder omzet. Dat is een omzet van {eur(main.benodigdeOmzet)} per jaar.</p>
+      <p>Uitgangspunten: {eur(UUR_DEFAULTS.kostenPerJaar)} zakelijke kosten per jaar, urencriterium gehaald, geen starter. Pensioen en AOV komen hier nog bij.</p>
+    </Answer>
+
+    <h2>Minimaal uurtarief per aantal declarabele uren</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Uren per week</th>{JAREN.map((y) => <th>{y}</th>)}<th>Omzet {MAIN}</th></tr></thead>
+        <tbody>
+          {UREN.map((u) => {
+            const c = calc(MAIN, u);
+            return (
+              <tr class={u === 28 ? 'hl' : ''}>
+                <td>{u} uur ({num(c.declarabeleUren)} per jaar)</td>
+                {JAREN.map((y) => {
+                  const t = calc(y, u).uurtarief;
+                  const d = getRules(y).rechtsvermoedenDrempel.value;
+                  return <td>{eur2(t)}{d != null && t <= d ? ' *' : ''}</td>;
+                })}
+                <td>{eur(c.benodigdeOmzet)}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+    <p class="note">
+      {drempel != null && <>* Op of onder de tariefgrens van het rechtsvermoeden ({eur2(drempel)} per uur) <Src r={r27.rechtsvermoedenDrempel} />. </>}
+      Belasting berekend met de zelfstandigenaftrek van {eur(r27.zelfstandigenaftrek.value)} in {MAIN} <Src r={r27.zelfstandigenaftrek} /> en de overige <a href={`/belastingcijfers-${MAIN}`}>belastingcijfers {MAIN}</a>.
+    </p>
+
+    <h2>Wat valt op?</h2>
+    <ul>
+      <li>Elk declarabel uur per week minder kost je flink: bij 20 uur heb je {eur2(calc(MAIN, 20).uurtarief)} nodig, bij 36 uur {eur2(calc(MAIN, 36).uurtarief)}.</li>
+      {drempel != null && (main.uurtarief <= drempel
+        ? <li>Bij 28 uur zit je op of onder de grens van {eur2(drempel)}. Opdrachtgevers lopen dan het risico op een arbeidsovereenkomst; <a href="/rechtsvermoeden-check">lees wat dat betekent</a>.</li>
+        : <li>Bij 28 uur zit je {eur2(main.uurtarief - drempel)} boven de tariefgrens van {eur2(drempel)}, dus het rechtsvermoeden speelt niet.</li>)}
+      <li>Zet je per maand ook geld opzij voor pensioen of een AOV, tel dat dan op bij je gewenste netto inkomen. <a href={toolLink('/uurtarief-berekenen-zzp', { netto, uren: 28, vakantie: UUR_DEFAULTS.vakantieWeken, kosten: UUR_DEFAULTS.kostenPerJaar, pensioen: 400, aov: 250, totaal: UUR_DEFAULTS.totaleUrenPerJaar, jaar: MAIN })}>Reken het uit met pensioen en AOV</a>.</li>
+    </ul>
+
+    <div class="next">
+      <p><a href={toolLink('/uurtarief-berekenen-zzp', { netto, uren: 28, vakantie: UUR_DEFAULTS.vakantieWeken, kosten: UUR_DEFAULTS.kostenPerJaar, pensioen: 0, aov: 0, totaal: UUR_DEFAULTS.totaleUrenPerJaar, jaar: MAIN })}>Open deze berekening in de calculator</a>.
+      {neighbours.length > 0 && <> Andere voorbeelden: {neighbours.map((n, i) => <>{i > 0 && ' en '}<a href={`/uurtarief-berekenen-zzp/${uurSlug(n)}`}>{eur(n)} per maand</a></>)}.</>}
+      </p>
+    </div>
+    <p class="note">Aan deze uitkomsten kunnen geen rechten worden ontleend. <a href="/over">Zo rekenen we</a>.</p>
+  </div>
+</Layout>
+
+<style>
+  tr.hl td { font-weight: 700; }
+  .note { font-size: var(--step--1); color: var(--ink-soft); }
+</style>

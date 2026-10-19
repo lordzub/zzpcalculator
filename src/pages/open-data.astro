@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { YEARS } from '../rules';
+import { SITE } from '../site';
+import { CONTENT_UPDATED } from '../lib/fmt';
+---
+<Layout title={`Open data: belastingcijfers voor zzp'ers | ${SITE.name}`} description="De belastingcijfers achter de rekenhulpen van zzpreken als JSON, met status en officiële bron per cijfer. Vrij te hergebruiken met bronvermelding." updated={CONTENT_UPDATED}
+  crumbs={[{ name: 'Open data', href: '/open-data' }]}>
+  <div class="wrap prose hero">
+    <h1>Open data</h1>
+    <p>De rekenhulpen van {SITE.name} rekenen met één set belastingcijfers per jaar. Die cijfers zijn openbaar, zodat iedereen kan nagaan waarmee we rekenen, en ze kan hergebruiken.</p>
+    <ul>
+      {YEARS.map((y) => <li><a href={`/data/belasting-${y}.json`}>belasting-{y}.json</a>, ook leesbaar als <a href={`/belastingcijfers-${y}`}>tabel</a></li>)}
+    </ul>
+    <h2>Wat staat erin</h2>
+    <p>Per cijfer: de waarde, de status (definitief, voorlopig of voorstel), de URL van de officiële bron en waar nodig een toelichting. Tarieven in box 1 zijn inclusief premies volksverzekeringen, voor mensen onder de AOW-leeftijd.</p>
+    <h2>Hergebruik</h2>
+    <p>Je mag de cijfers vrij gebruiken onder <a href="https://creativecommons.org/licenses/by/4.0/deed.nl" rel="noopener">CC BY 4.0</a>, met een vermelding van {SITE.name} en een link naar deze pagina. We controleren de cijfers zorgvuldig, maar kunnen fouten niet uitsluiten; gebruik voor beslissingen altijd de officiële bron.</p>
+    <p>Fout gevonden? Mail naar <a href="mailto:info@zzpreken.nl">info@zzpreken.nl</a>.</p>
+  </div>
+</Layout>

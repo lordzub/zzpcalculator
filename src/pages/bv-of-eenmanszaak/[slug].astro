@@ -1,0 +1,83 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Answer from '../../components/Answer.astro';
+import Src from '../../components/Src.astro';
+import { YEARS, getRules } from '../../rules';
+import { vergelijkBv, breakEvenWinst } from '../../engine/bv';
+import { BV_WINST, BV_EXTRA, bvSlug } from '../../lib/examples';
+import { eur, pct, toolLink, CONTENT_UPDATED } from '../../lib/fmt';
+import { SITE } from '../../site';
+
+export function getStaticPaths() {
+  return BV_WINST.map((w) => ({ params: { slug: bvSlug(w) }, props: { winst: w } }));
+}
+const { winst } = Astro.props as { winst: number };
+const MAIN = 2026;
+const rules = getRules(MAIN);
+const alles = vergelijkBv({ winst, levensbehoefte: 0, extraKostenBv: BV_EXTRA, uitkeren: 'alles' }, rules);
+const behoefte = Math.round(alles.eenmanszaak.netto * 0.75 / 1000) * 1000;
+const deel = vergelijkBv({ winst, levensbehoefte: behoefte, extraKostenBv: BV_EXTRA, uitkeren: 'behoefte' }, rules);
+const be = breakEvenWinst(BV_EXTRA, rules);
+const perJaar = YEARS.map((y) => ({ y, r: vergelijkBv({ winst, levensbehoefte: 0, extraKostenBv: BV_EXTRA, uitkeren: 'alles' }, getRules(y)) }));
+const bvWint = alles.verschilNetto >= 0;
+const idx = BV_WINST.indexOf(winst);
+const neighbours = BV_WINST.filter((_, i) => Math.abs(i - idx) === 1);
+
+const title = `BV of eenmanszaak bij ${eur(winst)} winst (${MAIN})`;
+const description = `Bij ${eur(winst)} winst houd je in ${MAIN} met een eenmanszaak ${eur(alles.eenmanszaak.netto)} netto over en met een BV die alles uitkeert ${eur(alles.bv.netto)}. Volledige vergelijking met DGA-salaris, vpb en box 2.`;
+---
+<Layout title={`${title} | ${SITE.name}`} description={description} updated={CONTENT_UPDATED}
+  crumbs={[{ name: 'BV of eenmanszaak', href: '/bv-of-eenmanszaak' }, { name: `${eur(winst)} winst`, href: `/bv-of-eenmanszaak/${bvSlug(winst)}` }]}>
+  <div class="wrap prose hero">
+    <h1>BV of eenmanszaak bij {eur(winst)} winst</h1>
+    <Answer>
+      <p>Bij <strong>{eur(winst)} winst</strong> houd je in {MAIN} met een eenmanszaak <strong>{eur(alles.eenmanszaak.netto)}</strong> netto over. Met een BV die alles uitkeert is dat <strong>{eur(alles.bv.netto)}</strong>: {bvWint ? `${eur(alles.verschilNetto)} meer` : `${eur(-alles.verschilNetto)} minder`}.</p>
+      <p>Het omslagpunt in {MAIN} ligt rond <strong>{be != null ? eur(be) : '—'} winst</strong>, uitgaande van {eur(BV_EXTRA)} extra kosten per jaar voor de BV.</p>
+    </Answer>
+
+    <h2>Vergelijking bij volledige uitkering ({MAIN})</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th></th><th>Eenmanszaak</th><th>BV</th></tr></thead>
+        <tbody>
+          <tr><td>DGA-salaris</td><td>—</td><td>{eur(alles.bv.salaris)}</td></tr>
+          <tr><td>Werkgeversheffing Zvw</td><td>—</td><td>{eur(alles.bv.werkgeversheffingZvw)}</td></tr>
+          <tr><td>Vennootschapsbelasting</td><td>—</td><td>{eur(alles.bv.vpb)}</td></tr>
+          <tr><td>Dividend</td><td>—</td><td>{eur(alles.bv.dividend)}</td></tr>
+          <tr><td>Box 2-belasting</td><td>—</td><td>{eur(alles.bv.box2)}</td></tr>
+          <tr><td>Inkomstenbelasting en Zvw</td><td>{eur(alles.eenmanszaak.belasting)}</td><td>{eur(alles.bv.loonheffing)}</td></tr>
+          <tr><td>Totaal belasting en premies</td><td>{eur(alles.eenmanszaak.belasting)}</td><td>{eur(alles.bv.belasting)}</td></tr>
+          <tr class="total"><td>Netto in je zak</td><td>{eur(alles.eenmanszaak.netto)}</td><td>{eur(alles.bv.netto)}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">BV-kosten {eur(BV_EXTRA)} per jaar inbegrepen. Gebruikelijk loon {eur(rules.gebruikelijkLoon.value)} <Src r={rules.gebruikelijkLoon} />, vpb {rules.vpb.value.map((b) => pct(b.rate)).join(' / ')} <Src r={rules.vpb} />, box 2 {rules.box2.value.map((b) => pct(b.rate)).join(' / ')} <Src r={rules.box2} />.</p>
+
+    <h2>Als je alleen uitkeert wat je nodig hebt</h2>
+    <p>Stel dat je {eur(behoefte)} netto per jaar nodig hebt en de rest in de BV laat staan. Dan betaal je in {MAIN} met een BV {eur(Math.abs(deel.verschilBelasting))} {deel.verschilBelasting <= 0 ? 'minder' : 'meer'} belasting dan met een eenmanszaak, en blijft er {eur(deel.bv.inBv)} in de BV. Keer je dat later uit, dan betaal je er alsnog box 2-belasting over.</p>
+
+    <h2>Per jaar</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Jaar</th><th>Eenmanszaak</th><th>BV (alles uitkeren)</th><th>Verschil</th></tr></thead>
+        <tbody>
+          {perJaar.map((p) => (
+            <tr><td>{p.y}</td><td>{eur(p.r.eenmanszaak.netto)}</td><td>{eur(p.r.bv.netto)}</td><td>{p.r.verschilNetto >= 0 ? '+' : '−'}{eur(Math.abs(p.r.verschilNetto))}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="next">
+      <p><a href={toolLink('/bv-of-eenmanszaak', { winst, behoefte, extra: BV_EXTRA, uitkeren: 'behoefte', jaren: 5, jaar: MAIN })}>Open deze vergelijking in de calculator</a>.
+      {neighbours.length > 0 && <> Andere voorbeelden: {neighbours.map((w, i) => <>{i > 0 && ' en '}<a href={`/bv-of-eenmanszaak/${bvSlug(w)}`}>{eur(w)} winst</a></>)}.</>}
+      </p>
+    </div>
+    <p class="note">Uitgangspunten: één aandeelhouder, geen fiscale partner, geen holding of pensioen in eigen beheer, urencriterium gehaald. Aan deze uitkomsten kunnen geen rechten worden ontleend.</p>
+  </div>
+</Layout>
+
+<style>
+  tr.total td { font-weight: 700; }
+  .note { font-size: var(--step--1); color: var(--ink-soft); }
+</style>

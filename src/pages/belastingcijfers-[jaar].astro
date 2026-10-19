@@ -1,0 +1,108 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Answer from '../components/Answer.astro';
+import Src from '../components/Src.astro';
+import { YEARS, getRules } from '../rules';
+import { SITE } from '../site';
+import { eur, eur2, pct, num, CONTENT_UPDATED } from '../lib/fmt';
+import type { YearRules } from '../engine/types';
+
+export function getStaticPaths() {
+  return YEARS.map((y) => ({ params: { jaar: String(y) } }));
+}
+const year = Number(Astro.params.jaar);
+const r: YearRules = getRules(year);
+const prev = YEARS.includes(year - 1) ? getRules(year - 1) : null;
+const final = Object.values(r).every((v) => typeof v !== 'object' || (v as any).status === 'definitief');
+
+const brackets = r.box1Brackets.value;
+const ak = r.arbeidskorting.value;
+const akMax = ak[ak.length - 1].base;
+const akAf = ak[ak.length - 1];
+const ahk = r.algemeneHeffingskorting.value;
+
+const title = `Belastingcijfers zzp ${year}: tarieven, aftrekposten en grenzen`;
+const description = `Alle belastingcijfers voor zzp'ers in ${year} op één pagina: box 1-tarieven, zelfstandigenaftrek (${eur(r.zelfstandigenaftrek.value)}), MKB-winstvrijstelling, heffingskortingen, Zvw, vpb, box 2 en het rechtsvermoeden. Met status en bron per cijfer.`;
+
+const rows: { label: string; value: string; rule: any; prev?: string }[] = [
+  { label: 'Zelfstandigenaftrek', value: eur(r.zelfstandigenaftrek.value), rule: r.zelfstandigenaftrek, prev: prev ? eur(prev.zelfstandigenaftrek.value) : undefined },
+  { label: 'Startersaftrek', value: eur(r.startersaftrek.value), rule: r.startersaftrek, prev: prev ? eur(prev.startersaftrek.value) : undefined },
+  { label: 'Urencriterium', value: `${num(r.urencriterium.value)} uur per jaar`, rule: r.urencriterium },
+  { label: 'MKB-winstvrijstelling', value: pct(r.mkbWinstvrijstelling.value), rule: r.mkbWinstvrijstelling, prev: prev ? pct(prev.mkbWinstvrijstelling.value) : undefined },
+  { label: 'Box 1, schijf 1', value: `${pct(brackets[0].rate)} tot ${eur(brackets[0].upTo!)}`, rule: r.box1Brackets, prev: prev ? `${pct(prev.box1Brackets.value[0].rate)} tot ${eur(prev.box1Brackets.value[0].upTo!)}` : undefined },
+  { label: 'Box 1, schijf 2', value: `${pct(brackets[1].rate)} tot ${eur(brackets[1].upTo!)}`, rule: r.box1Brackets, prev: prev ? `${pct(prev.box1Brackets.value[1].rate)} tot ${eur(prev.box1Brackets.value[1].upTo!)}` : undefined },
+  { label: 'Box 1, schijf 3', value: `${pct(brackets[2].rate)} daarboven`, rule: r.box1Brackets },
+  { label: 'Algemene heffingskorting', value: `max. ${eur(ahk[0].base)}, afbouw ${pct(-ahk[1].rate, 3)} vanaf ${eur(ahk[1].from)}`, rule: r.algemeneHeffingskorting, prev: prev ? `max. ${eur(prev.algemeneHeffingskorting.value[0].base)}` : undefined },
+  { label: 'Arbeidskorting', value: `max. ${eur(akMax)}, afbouw ${pct(-akAf.rate)} vanaf ${eur(akAf.from)}`, rule: r.arbeidskorting, prev: prev ? `max. ${eur(prev.arbeidskorting.value[prev.arbeidskorting.value.length - 1].base)}` : undefined },
+  { label: 'Bijdrage Zvw (ondernemer)', value: `${pct(r.zvwOndernemer.value.rate)} tot ${eur(r.zvwOndernemer.value.maxIncome)}`, rule: r.zvwOndernemer, prev: prev ? pct(prev.zvwOndernemer.value.rate) : undefined },
+  { label: 'Werkgeversheffing Zvw', value: pct(r.zvwWerkgever.value.rate), rule: r.zvwWerkgever },
+  { label: 'Vennootschapsbelasting', value: `${pct(r.vpb.value[0].rate)} tot ${eur(r.vpb.value[0].upTo!)}, daarboven ${pct(r.vpb.value[1].rate)}`, rule: r.vpb },
+  { label: 'Box 2 (per persoon)', value: `${pct(r.box2.value[0].rate)} tot ${eur(r.box2.value[0].upTo!)}, daarboven ${pct(r.box2.value[1].rate)}`, rule: r.box2 },
+  { label: 'Gebruikelijk loon DGA', value: eur(r.gebruikelijkLoon.value), rule: r.gebruikelijkLoon, prev: prev ? eur(prev.gebruikelijkLoon.value) : undefined },
+  { label: 'KOR-omzetgrens', value: eur(r.korOmzetgrens.value), rule: r.korOmzetgrens },
+  { label: 'Tariefgrens rechtsvermoeden', value: r.rechtsvermoedenDrempel.value != null ? `${eur2(r.rechtsvermoedenDrempel.value)} per uur (tot en met)` : 'nog niet van kracht', rule: r.rechtsvermoedenDrempel },
+];
+
+const notes = Object.entries(r).filter(([, v]) => typeof v === 'object' && (v as any).note).map(([, v]) => (v as any).note as string);
+
+const dataset = {
+  '@context': 'https://schema.org', '@type': 'Dataset',
+  name: `Belastingcijfers zzp ${year}`,
+  description: `Tarieven, aftrekposten, heffingskortingen en grenzen voor zzp'ers en DGA's in ${year}, met status (definitief, voorlopig of voorstel) en officiële bron per cijfer.`,
+  url: new URL(`/belastingcijfers-${year}`, 'https://' + SITE.domain).href,
+  inLanguage: 'nl-NL', isAccessibleForFree: true, license: 'https://creativecommons.org/licenses/by/4.0/',
+  dateModified: CONTENT_UPDATED, temporalCoverage: String(year),
+  creator: { '@type': 'Organization', name: SITE.name, url: 'https://' + SITE.domain },
+  distribution: [{ '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: `https://${SITE.domain}/data/belasting-${year}.json` }],
+};
+---
+<Layout title={`${title} | ${SITE.name}`} description={description} updated={CONTENT_UPDATED} jsonLd={[dataset]}
+  crumbs={[{ name: `Belastingcijfers ${year}`, href: `/belastingcijfers-${year}` }]}>
+  <div class="wrap prose hero">
+    <h1>Belastingcijfers voor zzp'ers in {year}</h1>
+    <Answer>
+      <p>In {year} is de zelfstandigenaftrek <strong>{eur(r.zelfstandigenaftrek.value)}</strong> <Src r={r.zelfstandigenaftrek} />{prev && <> (in {year - 1}: {eur(prev.zelfstandigenaftrek.value)})</>}, de MKB-winstvrijstelling {pct(r.mkbWinstvrijstelling.value)} en het toptarief in box 1 {pct(brackets[2].rate)} boven {eur(brackets[1].upTo!)}.</p>
+      <p>{final ? `Alle cijfers voor ${year} zijn definitief.` : `Een deel van de cijfers voor ${year} is nog voorlopig of een voorstel; dat staat bij elk cijfer.`}</p>
+    </Answer>
+    <nav class="years" aria-label="Ander jaar">
+      {YEARS.map((y) => y === year ? <span aria-current="page">{y}</span> : <a href={`/belastingcijfers-${y}`}>{y}</a>)}
+    </nav>
+
+    <div class="scroll-x">
+      <table class="cmp ref">
+        <caption class="visually-hidden">Belastingcijfers {year}</caption>
+        <thead><tr><th>Regel</th><th>{year}</th>{prev && <th>{year - 1}</th>}<th>Status en bron</th></tr></thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr>
+              <td>{row.label}</td>
+              <td><strong>{row.value}</strong></td>
+              {prev && <td>{row.prev ?? '—'}</td>}
+              <td><Src r={row.rule} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {notes.length > 0 && (
+      <>
+        <h2>Toelichting bij de cijfers</h2>
+        <ul>{notes.map((n) => <li>{n}</li>)}</ul>
+      </>
+    )}
+
+    <h2>Wat betekent dit voor jouw netto inkomen?</h2>
+    <p>Bekijk de <a href="/voorbeelden">rekenvoorbeelden</a> bij verschillende winsten, of reken je eigen situatie uit met de <a href={`/netto-inkomen-zzp?jaar=${year}`}>netto-inkomen-calculator</a>.</p>
+
+    <h2>Deze cijfers hergebruiken</h2>
+    <p>De cijfers staan ook als <a href={`/data/belasting-${year}.json`}>JSON-bestand</a>, met status en bron per cijfer. Je mag ze hergebruiken met bronvermelding (CC BY 4.0). Zie <a href="/open-data">open data</a>.</p>
+  </div>
+</Layout>
+
+<style>
+  .years { display: flex; gap: 14px; margin: 12px 0 16px; font-weight: 700; }
+  .years span { border-bottom: 2px solid var(--accent); }
+  table.ref td { text-align: left; vertical-align: top; }
+  table.ref th { text-align: left; }
+</style>

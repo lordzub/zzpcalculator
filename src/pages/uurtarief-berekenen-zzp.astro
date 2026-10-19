@@ -1,5 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Answer from '../components/Answer.astro';
+import Src from '../components/Src.astro';
+import { berekenUurtarief } from '../engine/uurtarief';
 import UurtariefCalc from '../components/UurtariefCalc.svelte';
 import Faq from '../components/Faq.astro';
 import { faqSchema, toolSchema } from '../components/faqSchema';
@@ -19,11 +22,12 @@ const faq = [
   { q: 'Waarom krijg ik een waarschuwing over de tariefgrens?', a: `<p>Ligt je tarief onder de grens van het rechtsvermoeden (${r27.rechtsvermoedenDrempel.value != null ? eur2(r27.rechtsvermoedenDrempel.value) : 'n.v.t.'} in 2027, ${r27.rechtsvermoedenDrempel.status}), dan wordt aangenomen dat je werkt als werknemer. Opdrachtgevers kunnen daardoor terughoudend zijn. <a href="/rechtsvermoeden-check">Lees meer en check je tarief</a>.</p>` },
 ];
 const jsonLd = [toolSchema(title, new URL('/uurtarief-berekenen-zzp', 'https://' + SITE.domain).href, description), faqSchema(faq)];
+const vb = berekenUurtarief({ nettoPerMaand: 3500, declarabeleUrenPerWeek: 28, vakantieWeken: 8, kostenPerJaar: 6000, pensioenPerMaand: 0, aovPerMaand: 0, starter: false, totaleUrenPerJaar: 1400 }, r27);
 ---
-<Layout title={`${title} (2026 en 2027) | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd}>
+<Layout title={`${title} (2026 en 2027) | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd} crumbs={[{ name: 'Uurtarief', href: '/uurtarief-berekenen-zzp' }]}>
   <div class="wrap hero">
     <h1>Uurtarief berekenen als zzp'er</h1>
-    <p class="lede">Begin bij wat je netto wilt verdienen. We rekenen terug naar het uurtarief dat je daarvoor minimaal nodig hebt.</p>
+    <Answer><p>Voor <strong>€ 3.500 netto per maand</strong> heb je als zzp'er in 2027 minimaal <strong>{eur2(vb.uurtarief)} per uur</strong> nodig, bij 28 declarabele uren per week, 8 weken vrij en € 6.000 kosten. De tariefgrens van het rechtsvermoeden is {eur2(r27.rechtsvermoedenDrempel.value ?? 38)} <Src r={r27.rechtsvermoedenDrempel} />. Reken hieronder je eigen situatie uit, of bekijk de <a href="/voorbeelden">rekenvoorbeelden</a>.</p></Answer>
     <UurtariefCalc client:load />
   </div>
 

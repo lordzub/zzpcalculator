@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Answer from '../../components/Answer.astro';
+import Src from '../../components/Src.astro';
+import { YEARS, getRules } from '../../rules';
+import { nettoEenmanszaak } from '../../engine/netto';
+import { NETTO_WINST, NETTO_UREN, nettoSlug } from '../../lib/examples';
+import { eur, pct, num, toolLink, CONTENT_UPDATED } from '../../lib/fmt';
+import { SITE } from '../../site';
+
+export function getStaticPaths() {
+  return NETTO_WINST.map((w) => ({ params: { slug: nettoSlug(w) }, props: { winst: w } }));
+}
+const { winst } = Astro.props as { winst: number };
+const MAIN = 2026;
+const res = YEARS.map((y) => ({ y, rules: getRules(y), r: nettoEenmanszaak({ omzet: winst, kosten: 0, uren: NETTO_UREN, starter: false }, getRules(y)) }));
+const main = res.find((x) => x.y === MAIN)!;
+const first = res[0], last = res[res.length - 1];
+const druk = main.r.totaalBelasting / winst;
+const diff = last.r.netto - first.r.netto;
+const starter = nettoEenmanszaak({ omzet: winst, kosten: 0, uren: NETTO_UREN, starter: true }, getRules(MAIN));
+const idx = NETTO_WINST.indexOf(winst);
+const neighbours = NETTO_WINST.filter((_, i) => Math.abs(i - idx) === 1);
+
+const title = `Netto inkomen zzp bij ${eur(winst)} winst (2025, 2026 en 2027)`;
+const description = `Bij ${eur(winst)} winst houd je als zzp'er in ${MAIN} ${eur(main.r.netto)} netto over (${eur(main.r.nettoPerMaand)} per maand). Volledige berekening met zelfstandigenaftrek, heffingskortingen en Zvw, voor 2025, 2026 en 2027.`;
+
+const lines: { label: string; key: keyof typeof main.r; sign?: string }[] = [
+  { label: 'Winst', key: 'winst' },
+  { label: 'Zelfstandigenaftrek', key: 'zelfstandigenaftrek', sign: '−' },
+  { label: 'MKB-winstvrijstelling', key: 'mkbVrijstelling', sign: '−' },
+  { label: 'Belastbare winst', key: 'belastbareWinst' },
+  { label: 'Inkomstenbelasting vóór kortingen', key: 'inkomstenbelastingBruto' },
+  { label: 'Algemene heffingskorting', key: 'algemeneHeffingskorting', sign: '−' },
+  { label: 'Arbeidskorting', key: 'arbeidskorting', sign: '−' },
+  { label: 'Te betalen inkomstenbelasting', key: 'inkomstenbelasting' },
+  { label: 'Bijdrage Zvw', key: 'zvw' },
+  { label: 'Totaal belasting en premies', key: 'totaalBelasting' },
+  { label: 'Netto per jaar', key: 'netto' },
+  { label: 'Netto per maand', key: 'nettoPerMaand' },
+];
+---
+<Layout title={`${title} | ${SITE.name}`} description={description} updated={CONTENT_UPDATED}
+  crumbs={[{ name: 'Netto inkomen', href: '/netto-inkomen-zzp' }, { name: `${eur(winst)} winst`, href: `/netto-inkomen-zzp/${nettoSlug(winst)}` }]}>
+  <div class="wrap prose hero">
+    <h1>Netto inkomen zzp bij {eur(winst)} winst</h1>
+    <Answer>
+      <p>Bij <strong>{eur(winst)} winst</strong> houd je als zzp'er in {MAIN} <strong>{eur(main.r.netto)} netto</strong> over, ongeveer <strong>{eur(main.r.nettoPerMaand)} per maand</strong>. Je betaalt {eur(main.r.totaalBelasting)} aan inkomstenbelasting en bijdrage Zvw: {pct(druk, 1)} van je winst.</p>
+      <p>Uitgangspunten: eenmanszaak, urencriterium gehaald ({num(NETTO_UREN)} uur), geen starter, geen ander inkomen, jonger dan de AOW-leeftijd.</p>
+    </Answer>
+
+    <h2>Berekening per jaar</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th></th>{res.map((x) => <th>{x.y}</th>)}</tr></thead>
+        <tbody>
+          {lines.map((l) => (
+            <tr class={l.key === 'netto' ? 'total' : ''}>
+              <td>{l.sign ? `${l.sign} ` : ''}{l.label}</td>
+              {res.map((x) => <td>{eur(x.r[l.key] as number)}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Gebruikte cijfers: zelfstandigenaftrek {res.map((x) => `${eur(x.rules.zelfstandigenaftrek.value)} (${x.y})`).join(', ')} <Src r={main.rules.zelfstandigenaftrek} />; MKB-winstvrijstelling {pct(main.rules.mkbWinstvrijstelling.value)} <Src r={main.rules.mkbWinstvrijstelling} />; tarieven box 1 {MAIN}: {main.rules.box1Brackets.value.map((b) => pct(b.rate)).join(' / ')} <Src r={main.rules.box1Brackets} />. Alle cijfers per jaar staan op <a href={`/belastingcijfers-${MAIN}`}>belastingcijfers {MAIN}</a>.</p>
+
+    <h2>Wat valt op?</h2>
+    <ul>
+      <li>
+        {diff < 0
+          ? <>In {last.y} houd je {eur(-diff)} per jaar minder over dan in {first.y}. De zelfstandigenaftrek daalt in die periode van {eur(first.rules.zelfstandigenaftrek.value)} naar {eur(last.rules.zelfstandigenaftrek.value)}.</>
+          : <>In {last.y} houd je {eur(diff)} per jaar meer over dan in {first.y}, ondanks de lagere zelfstandigenaftrek ({eur(first.rules.zelfstandigenaftrek.value)} → {eur(last.rules.zelfstandigenaftrek.value)}). Hogere schijfgrenzen en heffingskortingen compenseren dat bij deze winst.</>}
+      </li>
+      <li>{main.r.tariefcorrectie > 0
+        ? <>Bij deze winst val je deels in het toptarief. Door de tariefcorrectie leveren je aftrekposten daar maar {pct(main.rules.box1Brackets.value[1].rate)} voordeel op in plaats van {pct(main.rules.box1Brackets.value[2].rate)}: {eur(main.r.tariefcorrectie)} extra belasting in {MAIN}.</>
+        : <>Je blijft onder het toptarief, dus je aftrekposten leveren hun volledige voordeel op.</>}
+      </li>
+      <li>Als starter (startersaftrek {eur(getRules(MAIN).startersaftrek.value)} in {MAIN}) houd je {eur(starter.netto - main.r.netto)} meer over: {eur(starter.netto)} per jaar.</li>
+      <li>Haal je het urencriterium niet, dan vervalt de zelfstandigenaftrek en betaal je meer. <a href={toolLink('/netto-inkomen-zzp', { omzet: winst, kosten: 0, uren: 1000, starter: false, jaar: MAIN })}>Bereken dat verschil</a>.</li>
+    </ul>
+
+    <div class="next">
+      <p><a href={toolLink('/netto-inkomen-zzp', { omzet: winst, kosten: 0, uren: NETTO_UREN, starter: false, jaar: MAIN })}>Open deze berekening in de calculator</a> en pas omzet, kosten of uren aan.
+      {neighbours.length > 0 && <> Andere voorbeelden: {neighbours.map((w, i) => <>{i > 0 && ' en '}<a href={`/netto-inkomen-zzp/${nettoSlug(w)}`}>{eur(w)} winst</a></>)}.</>}
+      </p>
+    </div>
+    <p class="note">Aan deze uitkomsten kunnen geen rechten worden ontleend. <a href="/over">Zo rekenen we</a>.</p>
+  </div>
+</Layout>
+
+<style>
+  tr.total td { font-weight: 700; }
+  .note { font-size: var(--step--1); color: var(--ink-soft); }
+</style>

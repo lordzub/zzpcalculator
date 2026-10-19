@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getRules } from '../rules';
+import { nettoEenmanszaak } from '../engine/netto';
+import { berekenUurtarief } from '../engine/uurtarief';
+import { vergelijkBv } from '../engine/bv';
+import { NETTO_WINST, UURTARIEF_NETTO, BV_WINST, NETTO_UREN, UUR_DEFAULTS, BV_EXTRA, nettoSlug, uurSlug, bvSlug } from '../lib/examples';
+import { eur, eur2, CONTENT_UPDATED } from '../lib/fmt';
+import { YEARS } from '../rules';
+import { SITE } from '../site';
+
+const r26 = getRules(2026), r27 = getRules(2027);
+const netto = NETTO_WINST.map((w) => ({ w, n: nettoEenmanszaak({ omzet: w, kosten: 0, uren: NETTO_UREN, starter: false }, r26) }));
+const uur = UURTARIEF_NETTO.map((n) => ({ n, u: berekenUurtarief({ nettoPerMaand: n, declarabeleUrenPerWeek: 28, vakantieWeken: UUR_DEFAULTS.vakantieWeken, kostenPerJaar: UUR_DEFAULTS.kostenPerJaar, pensioenPerMaand: 0, aovPerMaand: 0, starter: false, totaleUrenPerJaar: UUR_DEFAULTS.totaleUrenPerJaar }, r27) }));
+const bv = BV_WINST.map((w) => ({ w, b: vergelijkBv({ winst: w, levensbehoefte: 0, extraKostenBv: BV_EXTRA, uitkeren: 'alles' }, r26) }));
+---
+<Layout title={`Rekenvoorbeelden voor zzp'ers | ${SITE.name}`} description="Uitgewerkte rekenvoorbeelden voor zzp'ers: netto inkomen bij verschillende winsten, benodigd uurtarief, BV of eenmanszaak en het rechtsvermoeden. Met tabellen en bronnen." updated={CONTENT_UPDATED} pageType="CollectionPage"
+  crumbs={[{ name: 'Rekenvoorbeelden', href: '/voorbeelden' }]}>
+  <div class="wrap prose hero">
+    <h1>Rekenvoorbeelden voor zzp'ers</h1>
+    <p>Uitgewerkte voorbeelden met de cijfers van 2025, 2026 en 2027. Elk voorbeeld laat de volledige berekening zien en opent met één klik in de calculator.</p>
+
+    <h2>Netto inkomen bij een bepaalde winst (2026)</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Winst</th><th>Netto per jaar</th><th>Netto per maand</th></tr></thead>
+        <tbody>{netto.map((x) => <tr><td><a href={`/netto-inkomen-zzp/${nettoSlug(x.w)}`}>{eur(x.w)}</a></td><td>{eur(x.n.netto)}</td><td>{eur(x.n.nettoPerMaand)}</td></tr>)}</tbody>
+      </table>
+    </div>
+
+    <h2>Uurtarief voor een gewenst netto inkomen (2027, 28 uur per week)</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Netto per maand</th><th>Minimaal uurtarief</th></tr></thead>
+        <tbody>{uur.map((x) => <tr><td><a href={`/uurtarief-berekenen-zzp/${uurSlug(x.n)}`}>{eur(x.n)}</a></td><td>{eur2(x.u.uurtarief)}</td></tr>)}</tbody>
+      </table>
+    </div>
+
+    <h2>BV of eenmanszaak (2026, alles uitkeren)</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Winst</th><th>Eenmanszaak</th><th>BV</th></tr></thead>
+        <tbody>{bv.map((x) => <tr><td><a href={`/bv-of-eenmanszaak/${bvSlug(x.w)}`}>{eur(x.w)}</a></td><td>{eur(x.b.eenmanszaak.netto)}</td><td>{eur(x.b.bv.netto)}</td></tr>)}</tbody>
+      </table>
+    </div>
+
+    <h2>Overige</h2>
+    <ul>
+      <li><a href="/rechtsvermoeden-check/tarieven">Welke tarieven vallen onder het rechtsvermoeden?</a></li>
+      <li><a href="/wat-verandert-er-2027">Wat verandert er in 2027 voor zzp'ers?</a></li>
+      {YEARS.map((y) => <li><a href={`/belastingcijfers-${y}`}>Alle belastingcijfers {y}</a></li>)}
+    </ul>
+  </div>
+</Layout>
