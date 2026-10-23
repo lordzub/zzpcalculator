@@ -1,0 +1,100 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Answer from '../components/Answer.astro';
+import Src from '../components/Src.astro';
+import NettoCalc from '../components/NettoCalc.svelte';
+import Faq from '../components/Faq.astro';
+import { faqSchema } from '../components/faqSchema';
+import { getRules } from '../rules';
+import { nettoEenmanszaak } from '../engine/netto';
+import { NETTO_UREN, nettoSlug, NETTO_WINST } from '../lib/examples';
+import { eur, pct, num } from '../lib/fmt';
+import { SITE } from '../site';
+
+const r26 = getRules(2026), r27 = getRules(2027);
+const b26 = r26.box1Brackets.value, b27 = r27.box1Brackets.value;
+
+// Bracket rows: "tot X", "X tot Y", "vanaf Y", side by side for 2026 and 2027.
+const label = (b: typeof b27, i: number) =>
+  i === 0 ? `tot ${eur(b[0].upTo!)}` : b[i].upTo == null ? `vanaf ${eur(b[i - 1].upTo!)}` : `${eur(b[i - 1].upTo!)} tot ${eur(b[i].upTo!)}`;
+
+const winsten = [30000, 40000, 50000, 60000, 75000, 100000, 150000];
+const rows = winsten.map((w) => {
+  const a = nettoEenmanszaak({ omzet: w, kosten: 0, uren: NETTO_UREN, starter: false }, r26);
+  const b = nettoEenmanszaak({ omzet: w, kosten: 0, uren: NETTO_UREN, starter: false }, r27);
+  return { w, a, b };
+});
+const at60 = rows.find((x) => x.w === 60000)!;
+
+const title = 'Inkomstenbelasting 2027 voor zzp\'ers: schijven en tarieven';
+const description = `De belastingschijven van 2027 voor zzp'ers: ${b27.map((b) => pct(b.rate)).join(', ')} (voorstel). Zie hoeveel inkomstenbelasting en Zvw je in 2027 betaalt bij jouw winst, vergeleken met 2026.`;
+
+const faq = [
+  { q: 'Wat zijn de belastingschijven in 2027?', a: `<p>Volgens het Belastingplan 2027 (${r27.box1Brackets.status}): ${b27.map((b, i) => `${pct(b.rate)} ${label(b27, i)}`).join(', ')}. In 2026 was dat ${b26.map((b, i) => `${pct(b.rate)} ${label(b26, i)}`).join(', ')}.</p>` },
+  { q: 'Betaalt een zzp\'er dezelfde inkomstenbelasting als een werknemer?', a: `<p>Dezelfde schijven, maar over een lager bedrag. Je trekt eerst de zelfstandigenaftrek (${eur(r27.zelfstandigenaftrek.value)} in 2027) en de MKB-winstvrijstelling (${pct(r27.mkbWinstvrijstelling.value)}) van je winst af. Daarnaast betaal je zelf de bijdrage Zvw (${pct(r27.zvwOndernemer.value.rate)} in 2027, ${r27.zvwOndernemer.status}); bij een werknemer betaalt de werkgever die.</p>` },
+  { q: 'Wanneer zijn de tarieven van 2027 definitief?', a: '<p>De Eerste Kamer stemt naar verwachting half december 2026 over het Belastingplan 2027. Daarna zetten we de cijfers op deze site van voorstel naar definitief.</p>' },
+  { q: 'Wat is de tariefcorrectie?', a: `<p>Valt je inkomen in het toptarief (${pct(b27[2].rate)}), dan leveren je ondernemersaftrek en MKB-winstvrijstelling maar ${pct(b27[1].rate)} voordeel op. Het verschil betaal je als tariefcorrectie. De rekenhulp rekent dat mee.</p>` },
+];
+const jsonLd = [faqSchema(faq)];
+---
+<Layout title={`Inkomstenbelasting 2027 zzp: schijven en tarieven | ${SITE.name}`} description={description} updated="2026-10-23" jsonLd={jsonLd}
+  crumbs={[{ name: 'Inkomstenbelasting 2027', href: '/inkomstenbelasting-2027' }]}>
+  <div class="wrap hero">
+    <h1>Inkomstenbelasting 2027 voor zzp'ers</h1>
+    <Answer>
+      <p>In 2027 betaal je in box 1 <strong>{b27.map((b, i) => `${pct(b.rate)} ${label(b27, i)}`).join(', ')}</strong> <Src r={r27.box1Brackets} />. De eerste twee tarieven gaan iets omhoog, de schijfgrenzen ook. Bij {eur(60000)} winst betaal je als zzp'er in 2027 {eur(at60.b.inkomstenbelasting)} inkomstenbelasting en {eur(at60.b.zvw)} bijdrage Zvw.</p>
+    </Answer>
+    <NettoCalc client:load />
+  </div>
+
+  <div class="wrap content prose">
+    <h2>Belastingschijven 2026 en 2027</h2>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Schijf</th><th>2026</th><th>Tarief 2026</th><th>2027</th><th>Tarief 2027</th></tr></thead>
+        <tbody>
+          {b27.map((b, i) => (
+            <tr><td>{i + 1}</td><td>{label(b26, i)}</td><td>{pct(b26[i].rate)}</td><td>{label(b27, i)}</td><td>{pct(b.rate)}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>De tarieven gelden voor wie jonger is dan de AOW-leeftijd en zijn inclusief premies volksverzekeringen. Status 2027: {r27.box1Brackets.status}. {r27.box1Brackets.note}</p>
+
+    <h2>Wat betaal je bij jouw winst?</h2>
+    <p>Inkomstenbelasting (na heffingskortingen) en bijdrage Zvw, voor een eenmanszaak die het urencriterium haalt ({num(NETTO_UREN)} uur), geen starter, zonder ander inkomen.</p>
+    <div class="scroll-x">
+      <table class="cmp">
+        <thead><tr><th>Winst</th><th>IB 2026</th><th>IB 2027</th><th>Zvw 2027</th><th>Totaal 2027</th><th>Verschil met 2026</th></tr></thead>
+        <tbody>
+          {rows.map(({ w, a, b }) => {
+            const d = b.totaalBelasting - a.totaalBelasting;
+            return (
+              <tr>
+                <td>{NETTO_WINST.includes(w) ? <a href={`/netto-inkomen-zzp/${nettoSlug(w)}`}>{eur(w)}</a> : eur(w)}</td>
+                <td>{eur(a.inkomstenbelasting)}</td><td>{eur(b.inkomstenbelasting)}</td><td>{eur(b.zvw)}</td><td>{eur(b.totaalBelasting)}</td>
+                <td>{d >= 0 ? '+' : '−'}{eur(Math.abs(d))}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+    <p>Hogere tarieven in de eerste twee schijven en een lagere zelfstandigenaftrek ({eur(r26.zelfstandigenaftrek.value)} → {eur(r27.zelfstandigenaftrek.value)} <Src r={r27.zelfstandigenaftrek} />) duwen de belasting omhoog. Hogere schijfgrenzen en heffingskortingen (maximale arbeidskorting {eur(r27.arbeidskorting.value[r27.arbeidskorting.value.length - 1].base)} <Src r={r27.arbeidskorting} />) duwen haar omlaag. Per winst valt dat anders uit; de laatste kolom laat het netto effect zien.</p>
+
+    <h2>Van winst naar belasting</h2>
+    <ol>
+      <li>Winst min zelfstandigenaftrek ({eur(r27.zelfstandigenaftrek.value)}) en eventueel startersaftrek ({eur(r27.startersaftrek.value)}, {r27.startersaftrek.status}).</li>
+      <li>Daarvan gaat {pct(r27.mkbWinstvrijstelling.value)} af als MKB-winstvrijstelling <Src r={r27.mkbWinstvrijstelling} />.</li>
+      <li>Over de rest betaal je de tarieven uit de tabel, met de tariefcorrectie in het toptarief.</li>
+      <li>Daar gaan de algemene heffingskorting en de arbeidskorting af.</li>
+      <li>Apart betaal je de bijdrage Zvw: {pct(r27.zvwOndernemer.value.rate)} over maximaal {eur(r27.zvwOndernemer.value.maxIncome)} <Src r={r27.zvwOndernemer} />.</li>
+    </ol>
+
+    <div class="next">
+      <p>Alle cijfers voor 2027 staan op <a href="/belastingcijfers-2027">belastingcijfers 2027</a>, en <a href="/wat-verandert-er-2027">wat verandert er in 2027</a> zet de wijzigingen op een rij. Reken daarna uit welk <a href="/uurtarief-berekenen-zzp">minimum uurtarief</a> je in 2027 nodig hebt.</p>
+    </div>
+
+    <Faq items={faq} />
+  </div>
+</Layout>

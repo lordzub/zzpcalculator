@@ -9,7 +9,7 @@ export const SITE = {
     { href: '/rechtsvermoeden-check', short: 'Tariefcheck', title: 'Val je onder het rechtsvermoeden?' },
     { href: '/netto-inkomen-zzp', short: 'Netto inkomen', title: 'Netto inkomen zzp 2025, 2026 en 2027' },
     { href: '/zelfstandigenaftrek-2027', short: 'Zelfstandigenaftrek', title: 'Zelfstandigenaftrek 2027: wat kost het je?' },
-    { href: '/uurtarief-berekenen-zzp', short: 'Uurtarief', title: 'Uurtarief berekenen als zzp\'er' },
+    { href: '/uurtarief-berekenen-zzp', short: 'Uurtarief', title: 'Minimum uurtarief zzp 2027 berekenen' },
     { href: '/bv-of-eenmanszaak', short: 'BV of eenmanszaak', title: 'BV of eenmanszaak?' },
   ],
 };

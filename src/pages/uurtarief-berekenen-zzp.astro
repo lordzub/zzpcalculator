@@ -12,21 +12,23 @@ import { SITE } from '../site';
 const r27 = getRules(2027);
 const eur2 = (n: number) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(n);
 
-const title = 'Uurtarief berekenen als zzp\'er';
-const description = 'Bereken welk uurtarief je minimaal nodig hebt voor het netto inkomen dat je wilt, inclusief belasting, kosten, vakantie, pensioen en AOV. Met waarschuwing voor de tariefgrens van 2027.';
+const title = 'Minimum uurtarief zzp 2027 berekenen';
+const description = 'Bereken je minimum uurtarief als zzp\'er voor 2026 en 2027: het tarief dat je nodig hebt voor het netto inkomen dat je wilt, inclusief belasting, kosten, vakantie, pensioen en AOV. Met waarschuwing voor de tariefgrens van 2027.';
+
+const vb = berekenUurtarief({ nettoPerMaand: 3500, declarabeleUrenPerWeek: 28, vakantieWeken: 8, kostenPerJaar: 6000, pensioenPerMaand: 0, aovPerMaand: 0, starter: false, totaleUrenPerJaar: 1400 }, r27);
 
 const faq = [
+  { q: 'Wat is het minimum uurtarief voor een zzp\'er in 2027?', a: `<p>Er is geen wettelijk minimumtarief voor zzp'ers. Wel geldt vanaf 31 december 2026 een grens: bij een uurtarief tot en met ${r27.rechtsvermoedenDrempel.value != null ? eur2(r27.rechtsvermoedenDrempel.value) : 'n.v.t.'} (zonder btw, ${r27.rechtsvermoedenDrempel.status}) wordt vermoed dat je werknemer bent. Daarnaast heb je je eigen minimum: het tarief waarmee je je kosten, belasting en gewenste inkomen dekt. Bij € 3.500 netto per maand is dat in 2027 ${eur2(vb.uurtarief)}, maar reken je eigen situatie uit met de rekenhulp hierboven.</p>` },
   { q: 'Hoe bereken ik mijn uurtarief als zzp\'er?', a: `<p>Begin bij wat je netto per maand nodig hebt. Tel daar pensioen en verzekeringen bij op, reken terug naar de omzet vóór belasting en kosten, en deel dat door het aantal uur dat je echt kunt factureren. De rekenhulp hierboven doet dat voor je, met de belastingregels van het gekozen jaar.</p>` },
   { q: 'Hoeveel uur per week kan ik factureren?', a: `<p>Minder dan je werkt. Administratie, acquisitie, reistijd en bijscholing zijn niet declarabel. Veel zzp'ers factureren 25 tot 32 uur per week. Reken ook met weken zonder omzet, zoals vakantie en ziekte.</p>` },
   { q: 'Wat is een normaal uurtarief voor een zzp\'er?', a: `<p>Dat verschilt sterk per beroep en ervaring. Kijk daarom vooral naar wat jij nodig hebt: een tarief onder je minimum kost je geld, hoe gangbaar het ook is.</p>` },
   { q: 'Waarom krijg ik een waarschuwing over de tariefgrens?', a: `<p>Ligt je tarief onder de grens van het rechtsvermoeden (${r27.rechtsvermoedenDrempel.value != null ? eur2(r27.rechtsvermoedenDrempel.value) : 'n.v.t.'} in 2027, ${r27.rechtsvermoedenDrempel.status}), dan wordt aangenomen dat je werkt als werknemer. Opdrachtgevers kunnen daardoor terughoudend zijn. <a href="/rechtsvermoeden-check">Lees meer en check je tarief</a>.</p>` },
 ];
 const jsonLd = [toolSchema(title, new URL('/uurtarief-berekenen-zzp', 'https://' + SITE.domain).href, description), faqSchema(faq)];
-const vb = berekenUurtarief({ nettoPerMaand: 3500, declarabeleUrenPerWeek: 28, vakantieWeken: 8, kostenPerJaar: 6000, pensioenPerMaand: 0, aovPerMaand: 0, starter: false, totaleUrenPerJaar: 1400 }, r27);
 ---
-<Layout title={`${title} (2026 en 2027) | ${SITE.name}`} description={description} updated="2026-10-19" jsonLd={jsonLd} crumbs={[{ name: 'Uurtarief', href: '/uurtarief-berekenen-zzp' }]}>
+<Layout title={`${title} | ${SITE.name}`} description={description} updated="2026-10-23" jsonLd={jsonLd} crumbs={[{ name: 'Uurtarief', href: '/uurtarief-berekenen-zzp' }]}>
   <div class="wrap hero">
-    <h1>Uurtarief berekenen als zzp'er</h1>
+    <h1>Minimum uurtarief berekenen als zzp'er (2027)</h1>
     <Answer><p>Voor <strong>€ 3.500 netto per maand</strong> heb je als zzp'er in 2027 minimaal <strong>{eur2(vb.uurtarief)} per uur</strong> nodig, bij 28 declarabele uren per week, 8 weken vrij en € 6.000 kosten. De tariefgrens van het rechtsvermoeden is {eur2(r27.rechtsvermoedenDrempel.value ?? 38)} <Src r={r27.rechtsvermoedenDrempel} />. Reken hieronder je eigen situatie uit, of bekijk de <a href="/voorbeelden">rekenvoorbeelden</a>.</p></Answer>
     <UurtariefCalc client:load />
   </div>

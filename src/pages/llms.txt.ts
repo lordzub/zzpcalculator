@@ -23,6 +23,7 @@ export const GET: APIRoute = () => {
     '## Belastingcijfers per jaar',
     ...YEARS.map((y) => `- [Belastingcijfers zzp ${y}](${b}/belastingcijfers-${y}): alle tarieven, aftrekposten en grenzen met bron ([JSON](${b}/data/belasting-${y}.json))`),
     `- [Wat verandert er in 2027](${b}/wat-verandert-er-2027)`,
+    `- [Inkomstenbelasting 2027 voor zzp'ers: schijven en wat je betaalt per winst](${b}/inkomstenbelasting-2027)`,
     '',
     '## Rekenvoorbeelden',
     ...NETTO_WINST.map((w) => `- [Netto inkomen bij €${w} winst](${b}/netto-inkomen-zzp/${nettoSlug(w)})`),
