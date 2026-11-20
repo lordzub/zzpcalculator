@@ -3,12 +3,12 @@
   "box1Brackets": {
     "value": [
       {
-        "upTo": 39247,
-        "rate": 0.3623
+        "upTo": 39337,
+        "rate": 0.3584
       },
       {
-        "upTo": 80578,
-        "rate": 0.3816
+        "upTo": 80819,
+        "rate": 0.3802
       },
       {
         "upTo": null,
@@ -16,8 +16,8 @@
       }
     ],
     "status": "voorstel",
-    "source": "https://www.taxence.nl/nieuws/tweede-nota-van-wijziging-belastingplan-2027/",
-    "note": "Belastingplan 2027 na de tweede nota van wijziging (9 oktober 2026). De Eerste Kamer stemt naar verwachting half december."
+    "source": "https://www.eerstekamer.nl/9370000/1/j9vvkfvj6b325az/vn2qnxn9tkum/f=y.pdf",
+    "note": "Belastingplan 2027 zoals aangenomen door de Tweede Kamer op 12 november 2026 (gewijzigd voorstel, art. 2.10: 8,19% + 27,65% premie volksverzekeringen = 35,84%; 38,02%; 49,50%). Amendementen 37022-42 en -80 verlaagden de tarieven. De Eerste Kamer stemt naar verwachting op 15 december 2026."
   },
   "algemeneHeffingskorting": {
     "value": [
@@ -67,7 +67,7 @@
     ],
     "status": "voorstel",
     "source": "https://www.taxence.nl/nieuws/tweede-nota-van-wijziging-belastingplan-2027/",
-    "note": "Maximum €5.889 na de tweede nota van wijziging. De grenzen van de opbouwschijven (12114 en 26168) zijn een schatting tot de officiële tabel verschijnt."
+    "note": "Let op: amendement 37022-42 (aangenomen 12 november 2026) verhoogt de drie knikpunten van de arbeidskorting met € 17 in plaats van de voorgenomen € 133. Het maximum van € 5.889 en de schijfgrenzen (12114 en 26168, schatting) zijn daardoor waarschijnlijk te hoog; vervangen zodra de officiële tabel 2027 verschijnt (december)."
   },
   "zelfstandigenaftrek": {
     "value": 900,
@@ -94,20 +94,20 @@
   "zvwOndernemer": {
     "value": {
       "rate": 0.0502,
-      "maxIncome": 82547
+      "maxIncome": 82543
     },
-    "status": "voorlopig",
-    "source": "https://www.salarisvanmorgen.nl/?p=84780",
-    "note": "Raming; de definitieve regeling verschijnt meestal in november."
+    "status": "definitief",
+    "source": "https://zoek.officielebekendmakingen.nl/stcrt-2026-39593.html",
+    "note": "Regeling VWS van 5 november 2026 (Stcrt. 2026, 39593), verwerkt in de Regeling zorgverzekering per 1 januari 2027 (art. 5.2 en 5.4, wetten.overheid.nl/BWBR0018715/2027-01-01): 6,27% / 5,02%, maximum € 82.543."
   },
   "zvwWerkgever": {
     "value": {
       "rate": 0.0627,
-      "maxIncome": 82547
+      "maxIncome": 82543
     },
-    "status": "voorlopig",
-    "source": "https://www.salarisvanmorgen.nl/?p=84780",
-    "note": "Raming; de definitieve regeling verschijnt meestal in november."
+    "status": "definitief",
+    "source": "https://zoek.officielebekendmakingen.nl/stcrt-2026-39593.html",
+    "note": "Regeling VWS van 5 november 2026 (Stcrt. 2026, 39593), verwerkt in de Regeling zorgverzekering per 1 januari 2027 (art. 5.2 en 5.4, wetten.overheid.nl/BWBR0018715/2027-01-01): 6,27% / 5,02%, maximum € 82.543."
   },
   "vpb": {
     "value": [
@@ -126,7 +126,7 @@
   "box2": {
     "value": [
       {
-        "upTo": 69607,
+        "upTo": 68843,
         "rate": 0.245
       },
       {
@@ -135,7 +135,8 @@
       }
     ],
     "status": "voorstel",
-    "source": "https://www.sra.nl/~/media/SRAnieuwsbank/Documenten/MMM/Miljoenennota/Special-Miljoenennota-2027-DDJ"
+    "source": "https://www.eerstekamer.nl/9370000/1/j9vvkfvj6b325az/vn2qnxn9tkum/f=y.pdf",
+    "note": "Amendement 37022-80 (aangenomen 12 november 2026): de schijfgrens wordt in 2027 t/m 2031 niet geïndexeerd en blijft € 68.843 (bedrag 2026). Eerste Kamer stemt naar verwachting op 15 december 2026."
   },
   "gebruikelijkLoon": {
     "value": 58000,

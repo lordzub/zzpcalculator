@@ -52,7 +52,8 @@ CI (`.github/workflows/ci.yml`) runs the tests before the build, so a mismatch b
 
 - [x] Domain: `zzpreken.nl` registered (redirect domain: `zzptariefcheck.nl`).
 - [ ] Affiliate links in `src/site.ts` are placeholders (`pending: true`) until Daisycon approves.
-- [ ] 2027 figures marked voorstel/voorlopig: update after the Eerste Kamer vote (mid-December 2026), the minimumloon (November) and the Zvw regeling (November).
-- [ ] 2027 arbeidskorting band thresholds are estimates (2026 × 1.01248); replace when the official table is published.
+- [x] 2027 Zvw percentages and maximum (Stcrt. 2026, 39593): 6,27% / 5,02%, max € 82.543 — done Nov 2026.
+- [ ] 2027 figures marked voorstel: box 1 and box 2 now follow the Belastingplan as adopted by the Tweede Kamer (12 Nov 2026); update after the Eerste Kamer vote (15 December 2026).
+- [ ] 2027 arbeidskorting: band thresholds are estimates (2026 × 1.01248) and the knikpunt amounts (max € 5.889) predate amendment 37022-42 (+€17 instead of +€133 per knikpunt), so they are likely too high. Replace when the official table is published (December).
 - [ ] Rechtsvermoeden threshold for 2027: €38 until an indexed amount is announced.
 - [ ] 2027 gebruikelijk loon: uses €58,000 until published (late December).

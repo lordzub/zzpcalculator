@@ -806,9 +806,9 @@
   },
   "expected": {
    "belastbareWinst": 27150.3,
-   "inkomstenbelasting": 1077.84,
+   "inkomstenbelasting": 971.96,
    "zvw": 1362.95,
-   "netto": 29559.21
+   "netto": 29665.1
   }
  },
  {
@@ -822,9 +822,9 @@
   },
   "expected": {
    "belastbareWinst": 34125.57,
-   "inkomstenbelasting": 3665.54,
+   "inkomstenbelasting": 3532.45,
    "zvw": 1713.1,
-   "netto": 34621.36
+   "netto": 34754.45
   }
  },
  {
@@ -838,9 +838,9 @@
   },
   "expected": {
    "belastbareWinst": 46356.3,
-   "inkomstenbelasting": 9271.34,
+   "inkomstenbelasting": 9106.37,
    "zvw": 2327.09,
-   "netto": 42401.57
+   "netto": 42566.55
   }
  },
  {
@@ -854,9 +854,9 @@
   },
   "expected": {
    "belastbareWinst": 62070.3,
-   "inkomstenbelasting": 17437.45,
+   "inkomstenbelasting": 17250.47,
    "zvw": 3115.93,
-   "netto": 51446.63
+   "netto": 51633.6
   }
  },
  {
@@ -870,9 +870,9 @@
   },
   "expected": {
    "belastbareWinst": 62856.0,
-   "inkomstenbelasting": 17787.16,
+   "inkomstenbelasting": 17599.08,
    "zvw": 3155.37,
-   "netto": 51057.47
+   "netto": 51245.55
   }
  },
  {
@@ -886,9 +886,9 @@
   },
   "expected": {
    "belastbareWinst": 77784.3,
-   "inkomstenbelasting": 26672.0,
+   "inkomstenbelasting": 26448.55,
    "zvw": 3904.77,
-   "netto": 59423.23
+   "netto": 59646.68
   }
  },
  {
@@ -902,9 +902,9 @@
   },
   "expected": {
    "belastbareWinst": 77775.57,
-   "inkomstenbelasting": 26668.12,
+   "inkomstenbelasting": 26444.67,
    "zvw": 3904.33,
-   "netto": 59427.55
+   "netto": 59650.99
   }
  },
  {
@@ -918,9 +918,9 @@
   },
   "expected": {
    "belastbareWinst": 99609.3,
-   "inkomstenbelasting": 39640.4,
-   "zvw": 4143.86,
-   "netto": 71215.74
+   "inkomstenbelasting": 39421.39,
+   "zvw": 4143.66,
+   "netto": 71434.95
   }
  },
  {
@@ -934,9 +934,9 @@
   },
   "expected": {
    "belastbareWinst": 121434.3,
-   "inkomstenbelasting": 52320.32,
-   "zvw": 4143.86,
-   "netto": 83535.82
+   "inkomstenbelasting": 52105.75,
+   "zvw": 4143.66,
+   "netto": 83750.59
   }
  },
  {
@@ -950,9 +950,9 @@
   },
   "expected": {
    "belastbareWinst": 191274.3,
-   "inkomstenbelasting": 88043.26,
-   "zvw": 4143.86,
-   "netto": 127812.88
+   "inkomstenbelasting": 87842.92,
+   "zvw": 4143.66,
+   "netto": 128013.42
   }
  },
  {
@@ -998,9 +998,9 @@
   },
   "expected": {
    "belastbareWinst": 34134.3,
-   "inkomstenbelasting": 3669.25,
+   "inkomstenbelasting": 3536.13,
    "zvw": 1713.54,
-   "netto": 34617.2
+   "netto": 34750.33
   }
  },
  {
@@ -1014,9 +1014,9 @@
   },
   "expected": {
    "belastbareWinst": 34920.0,
-   "inkomstenbelasting": 4003.81,
+   "inkomstenbelasting": 3867.62,
    "zvw": 1752.98,
-   "netto": 34243.21
+   "netto": 34379.4
   }
  },
  {
@@ -1030,9 +1030,9 @@
   },
   "expected": {
    "belastbareWinst": 67299.57,
-   "inkomstenbelasting": 20155.59,
+   "inkomstenbelasting": 19961.29,
    "zvw": 3378.44,
-   "netto": 54465.97
+   "netto": 54660.27
   }
  },
  {
@@ -1046,9 +1046,9 @@
   },
   "expected": {
    "belastbareWinst": 58578.3,
-   "inkomstenbelasting": 15622.76,
+   "inkomstenbelasting": 15440.67,
    "zvw": 2940.63,
-   "netto": 49436.61
+   "netto": 49618.7
   }
  },
  {
@@ -1062,9 +1062,9 @@
   },
   "expected": {
    "belastbareWinst": 86514.3,
-   "inkomstenbelasting": 31965.85,
-   "zvw": 4143.86,
-   "netto": 63890.29
+   "inkomstenbelasting": 31744.18,
+   "zvw": 4143.66,
+   "netto": 64112.17
   }
  },
  {
@@ -1078,9 +1078,9 @@
   },
   "expected": {
    "belastbareWinst": 41118.3,
-   "inkomstenbelasting": 6549.31,
+   "inkomstenbelasting": 6391.66,
    "zvw": 2064.14,
-   "netto": 39386.55
+   "netto": 39544.2
   }
  },
  {
@@ -1094,9 +1094,9 @@
   },
   "expected": {
    "belastbareWinst": 151980.57,
-   "inkomstenbelasting": 67945.77,
-   "zvw": 4143.86,
-   "netto": 102910.37
+   "inkomstenbelasting": 67737.44,
+   "zvw": 4143.66,
+   "netto": 103118.9
   }
  },
  {
@@ -1110,7 +1110,7 @@
    "salaris": 54107.46,
    "vpb": 0.0,
    "box2": 0.0,
-   "netto": 41379.08
+   "netto": 41554.91
   }
  },
  {
@@ -1124,7 +1124,7 @@
    "salaris": 58000,
    "vpb": 6814.05,
    "box2": 7117.09,
-   "netto": 65217.91
+   "netto": 65399.19
   }
  },
  {
@@ -1137,8 +1137,8 @@
   "expected": {
    "salaris": 58000,
    "vpb": 16314.05,
-   "box2": 17039.59,
-   "netto": 95795.41
+   "box2": 17085.5,
+   "netto": 95930.77
   }
  },
  {
@@ -1151,8 +1151,8 @@
   "expected": {
    "salaris": 58000,
    "vpb": 35219.05,
-   "box2": 42020.29,
-   "netto": 151409.7
+   "box2": 42069.95,
+   "netto": 151541.32
   }
  },
  {
@@ -1166,7 +1166,7 @@
    "salaris": 35757.97,
    "vpb": 0.0,
    "box2": 0.0,
-   "netto": 31321.2
+   "netto": 31460.65
   }
  }
 ]
